@@ -1,0 +1,9 @@
+# 工作区内部文件（不上传）
+.workbuddy/
+.wbapp_*.genie
+
+# 挂起项目：微信小程序（未经明确要求不开发/不发布）
+checkin-miniprogram/
+
+# 系统文件
+.DS_Store
