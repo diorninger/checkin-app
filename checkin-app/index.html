@@ -497,13 +497,15 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
     </div>
 
     <div class="rm-row rm-days">
-      <span class="rm-label">提醒日（按任务）</span>
+      <span class="rm-label">提醒日（可自定义）</span>
       <div class="rm-daybox" id="rmDays">
-        <label><input type="checkbox" value="1" checked><span>周一 · 英语</span></label>
-        <label><input type="checkbox" value="3" checked><span>周三 · 英语</span></label>
-        <label><input type="checkbox" value="2"><span>周二 · 语文</span></label>
-        <label><input type="checkbox" value="4"><span>周四 · 语文</span></label>
-        <label><input type="checkbox" value="6"><span>周六 · 周末专项</span></label>
+        <label><input type="checkbox" value="1" checked><span>周一 · 名著/英语</span></label>
+        <label><input type="checkbox" value="2"><span>周二 · 语文/文言文</span></label>
+        <label><input type="checkbox" value="3" checked><span>周三 · 名著/英语</span></label>
+        <label><input type="checkbox" value="4"><span>周四 · 语文/文言文</span></label>
+        <label><input type="checkbox" value="5"><span>周五 · 每日任务</span></label>
+        <label><input type="checkbox" value="6"><span>周六 · 学而思/周末</span></label>
+        <label><input type="checkbox" value="7"><span>周日 · 全联/周末</span></label>
       </div>
     </div>
 
@@ -616,8 +618,8 @@ function dkey(d){ return Y + '-' + pad(MO + 1) + '-' + pad(d); }
 
 /* ---------- task definitions ---------- */
 var DAILY = [
-  {k:'ql-qt',   label:'全联 · 每日一题'},
-  {k:'xes-qt',  label:'学而思 · 每日一题'},
+  {k:'ql-qt',   label:'全联 · 每日一题',     noWeekend:true},
+  {k:'xes-qt',  label:'学而思 · 每日一题',   noWeekend:true},
   {k:'ks',      label:'学而思口算（中午）'}
 ];
 
@@ -671,7 +673,10 @@ function rebuildMonthData(){
       var c = CLASS[dow];
       list.push({id: key + '|' + c.k, label: c.label, type:'class', time: c.time});
     }
-    DAILY.forEach(function(t){ list.push({id: key + '|' + t.k, k: t.k, label: t.label, type:'daily'}); });
+    DAILY.forEach(function(t){
+      if (t.noWeekend && (dow === 0 || dow === 6)) return;   // 全联 / 学而思「每日一题」仅工作日，周末不显示
+      list.push({id: key + '|' + t.k, k: t.k, label: t.label, type:'daily'});
+    });
     if (HW_DOW[dow]) {
       var h = HW_DOW[dow];
       list.push({id: key + '|' + h.k, k: h.k, label: h.label, type:'focus'});
@@ -1483,7 +1488,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.2.0';
+var VERSION = '2.2.1';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
