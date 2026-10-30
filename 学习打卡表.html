@@ -70,13 +70,17 @@
   html.theme-auto .rm-rule-del{border-color:#5a2e2c;background:#3a2224;color:#ff8c82}
   html.theme-auto .ph-add{background:var(--surface-2)}
   html.theme-auto .ph-add:hover{border-color:#3c424c;color:var(--ink)}
-  html.theme-auto .fld:focus{background:var(--surface-2)}
-  html.theme-auto .rm-rule-text{background:var(--surface-2)}
-  html.theme-auto .bind-input:focus{background:var(--surface-2)}
+  html.theme-auto body .fld:focus{background:var(--surface-2);border-color:var(--ink)}
+  html.theme-auto body .rm-rule-text,
+  html.theme-auto body .rm-rule-text:focus{background:var(--surface-2);border-color:var(--ink);color:var(--ink)}
+  html.theme-auto body .bind-input:focus{background:var(--surface-2);border-color:var(--ink)}
   html.theme-auto .t-edit:hover{background:#2a2e35}
   html.theme-auto .btn:hover{border-color:#3c424c;color:var(--ink)}
   html.theme-auto .sync-badge:hover{border-color:#3c424c;color:var(--ink)}
   html.theme-auto .att-drop:hover{border-color:var(--accent);color:var(--ink-2)}
+  html.theme-auto .att-img{background:var(--surface-2)}
+  html.theme-auto .imgview img{background:var(--surface-2)}
+  html.theme-auto .seg button.on{color:var(--bg)}
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -508,7 +512,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
     ⑤ 新概念英语（作业+单词）1 篇、教材帮语数英各 1 课属<b>周末专项</b>，每个周末完成一次即可，统一排在周六。<br>
     ⑥ 勾选进度自动保存并云同步，刷新不丢失。<span class="no-print">换设备输入同一打卡码即可接续。</span><br>
     ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
-    <div class="ver-line">版本 <b id="verBadge">v2.3.2</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
+    <div class="ver-line">版本 <b id="verBadge">v2.3.3</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
   </div>
 </div>
 
@@ -1541,7 +1545,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.3.2';
+var VERSION = '2.3.3';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
