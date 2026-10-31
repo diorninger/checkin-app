@@ -148,6 +148,9 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
       justify-content:space-between;text-align:left;transition:.15s;overflow:hidden}
 .cell:hover{border-color:#d8d2c6;background:#eceae3}
 .cell.out{opacity:.28;pointer-events:none;background:transparent}
+.cell.out.nav{opacity:.5;pointer-events:auto;cursor:pointer}
+.cell.out.nav:hover{border-color:var(--accent);background:var(--surface-2);opacity:.95}
+.cell.out.nav .nav-hint{position:absolute;top:3px;right:6px;font-size:14px;line-height:1;color:var(--accent);opacity:.6}
 .cell.wk{background:var(--weekend-soft)}
 .cell.wk:hover{background:#ece4f7}
 .cell.today{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft) inset}
@@ -511,12 +514,12 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
     <b>说明</b>　
     ① 每日任务：全联 / 学而思 每日一题、学而思口算（中午）；基础作业固定在<b>周日（全联）</b>与<b>周六（学而思）</b>。<br>
     ② 周一、周三加「初中名著」与「英语小程序（时文 / 初中词汇）」；周二、周四加「语文阅读作文」与「文言文古诗」。英语任务右侧有<span class="mp-chip">小程序 ▸</span>标签，点击复制口令后去微信粘贴打开「星火单词王」。<br>
-    ③ 公式活页本（全联、学而思）<b>每周各一次</b>：未勾选前每天出现在清单里提醒，任意一天勾选后本周其余日期自动收起，取消勾选则恢复提醒。<br>
+    ③ 公式活页本：<b>学而思固定在每周六</b>、<b>全联固定在每周日</b>，各每周一次，按对应日期打卡。<br>
     ④ 周六 15:50–17:50 学而思上课，周日 08:00–12:10 全联上课，按上课当日打卡。<br>
     ⑤ 新概念英语（作业+单词）1 篇、教材帮语数英各 1 课属<b>周末专项</b>，每个周末完成一次即可，统一排在周六。<br>
     ⑥ 勾选进度自动保存并云同步，刷新不丢失。<span class="no-print">换设备输入同一打卡码即可接续。</span><br>
     ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
-    <div class="ver-line">版本 <b id="verBadge">v2.3.5</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
+    <div class="ver-line">版本 <b id="verBadge">v2.4.5</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
   </div>
 </div>
 
@@ -691,6 +694,8 @@ var HW_DOW = {
 /* 公式活页本：每周一次。勾选前每天提醒，勾选后本周其余日期自动隐藏 */
 var FM_KEYS  = ['fm-ql', 'fm-xes'];
 var FM_LABEL = { 'fm-ql': '公式活页本 · 全联', 'fm-xes': '公式活页本 · 学而思' };
+/* 公式归纳固定星期：学而思 = 周六(6)，全联 = 周日(0)；每周各一次自然满足（不再按“任意一天勾选后本周收起”） */
+var FM_DOW = { 6:'fm-xes', 0:'fm-ql' };
 var WEEKS    = Math.ceil(DAYS_IN / 7);   // 一个月内的自然周数（按周日对齐，loadMonth 时随天数重算）
 function weekIdx(d){ return Math.floor((d - 1 + firstDow) / 7); }  // 按周日开头的真实周；firstDow=1日星期（loadMonth 设置）
 
@@ -743,9 +748,11 @@ function rebuildMonthData(){
     if (DOW_EXTRA[dow]) {
       DOW_EXTRA[dow].forEach(function(t){ list.push({id: key + '|' + t.k, k: t.k, label: t.label, type:'focus'}); });
     }
-    FM_KEYS.forEach(function(k){
-      list.push({id: key + '|' + k, k: k, label: FM_LABEL[k], time: '每周一次', type:'daily'});
-    });
+    // 公式活页本：学而思固定周六、全联固定周日（每周各一次，自然满足）
+    if (FM_DOW[dow]) {
+      var fk = FM_DOW[dow];
+      list.push({id: key + '|' + fk, k: fk, label: FM_LABEL[fk], time: '每周一次', type:'daily'});
+    }
 
     var satDay = d - ((dow + 1) % 7);
     var sunDay = d + ((7 - dow) % 7);
@@ -999,11 +1006,22 @@ function cellCls(day){
 
 function renderCal(){
   var html = '';
+  var monthKeys = MONTHS.map(function(x){ return x.key; });
   for (var i = 0; i < totalCells; i++) {
     var dnum = i - offset + 1;
     if (dnum < 1 || dnum > DAYS_IN) {
       var od = new Date(Y, MO, dnum);
-      html += '<div class="cell out"><span class="dnum">' + od.getDate() + '</span></div>';
+      var odY = od.getFullYear(), odM = od.getMonth();
+      var odKey = odY + '-' + pad(odM + 1);
+      if (monthKeys.indexOf(odKey) >= 0) {
+        // 上一月 / 下一月的日期（且在支持的月份范围内）：可点击，点击后跳转到对应月份并选中该日
+        html += '<button type="button" class="cell out nav" data-ym="' + odKey + '" data-d="' + od.getDate() + '">'
+             +  '<span class="dnum">' + od.getDate() + '</span>'
+             +  '<span class="nav-hint">' + (dnum > DAYS_IN ? '›' : '‹') + '</span>'
+             +  '</button>';
+      } else {
+        html += '<div class="cell out"><span class="dnum">' + od.getDate() + '</span></div>';
+      }
       continue;
     }
     var day = dayMap[dkey(dnum)];
@@ -1033,7 +1051,19 @@ function renderCal(){
 
 calGrid.addEventListener('click', function(e){
   var cell = e.target.closest('.cell');
-  if (!cell || cell.classList.contains('out')) return;
+  if (!cell) return;
+  // 点击溢出格（上一月 / 下一月的日期）：跳转到对应月份并选中该日
+  if (cell.classList.contains('out')) {
+    var ym = cell.getAttribute('data-ym');
+    if (ym) {
+      var nd = parseInt(cell.getAttribute('data-d'), 10);
+      switchMonth(ym);
+      selected = ym + '-' + pad(nd);
+      renderCal();
+      renderPanel();
+    }
+    return;
+  }
   var key = cell.getAttribute('data-key');
   // 点日期格右上角的 📷：直接预览当天第一张图片
   if (e.target.closest('.cls-badge.cam')) {
@@ -1548,7 +1578,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.3.5';
+var VERSION = '2.4.5';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
