@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <defs>
+    <linearGradient id="lgBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6BD0FF"/>
+      <stop offset="0.42" stop-color="#0A84FF"/>
+      <stop offset="1" stop-color="#0057B8"/>
+    </linearGradient>
+    <linearGradient id="lgGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.52"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lgCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E9F2FF"/>
+    </linearGradient>
+    <clipPath id="cpIcon"><rect x="6" y="6" width="168" height="168" rx="41"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#cpIcon)">
+    <rect x="6" y="6" width="168" height="168" fill="url(#lgBg)"/>
+    <rect x="6" y="6" width="168" height="82" fill="url(#lgGloss)"/>
+  </g>
+  <rect x="6" y="6" width="168" height="168" rx="41" fill="none" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="2"/>
+
+  <rect x="57" y="30" width="12" height="22" rx="6" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="111" y="30" width="12" height="22" rx="6" fill="#FFFFFF" opacity="0.95"/>
+
+  <rect x="42" y="42" width="96" height="98" rx="17" fill="url(#lgCard)"/>
+  <path d="M59 42 h62 a17 17 0 0 1 17 17 v9 h-96 v-9 a17 17 0 0 1 17 -17 z" fill="#0A84FF"/>
+
+  <circle cx="60" cy="56" r="3.4" fill="#FFFFFF" opacity="0.98"/>
+  <circle cx="90" cy="56" r="3.4" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="120" cy="56" r="3.4" fill="#FFFFFF" opacity="0.55"/>
+
+  <g fill="#CFE3FF">
+    <rect x="52" y="76" width="22" height="15" rx="4"/>
+    <rect x="79" y="76" width="22" height="15" rx="4"/>
+    <rect x="106" y="76" width="22" height="15" rx="4"/>
+    <rect x="52" y="97" width="22" height="15" rx="4"/>
+    <rect x="79" y="97" width="22" height="15" rx="4"/>
+    <rect x="52" y="118" width="22" height="15" rx="4"/>
+    <rect x="79" y="118" width="22" height="15" rx="4"/>
+  </g>
+
+  <circle cx="117" cy="125" r="14" fill="#34C759"/>
+  <path d="M110.4 125.3 l5 5 L124 119" fill="none" stroke="#FFFFFF" stroke-width="3.8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
