@@ -14,23 +14,28 @@
 
 <style>
 :root{
-  --bg:#f6f5f1;
+  /* Apple 系统色（iOS / macOS 同源） */
+  --bg:#f2f2f7;
   --surface:#ffffff;
-  --surface-2:#fbfaf7;
-  --line:#e7e3da;
-  --line-soft:#f0ece4;
-  --ink:#1d2530;
-  --ink-2:#5c6674;
-  --ink-3:#98a2ae;
-  --accent:#2f5f8f;
-  --accent-soft:#e9f0f7;
-  --done:#3d8a66;
-  --done-soft:#e9f5ef;
-  --class:#a9741f;
-  --class-soft:#fbf2e3;
-  --weekend:#7a5aa6;
-  --weekend-soft:#f2edf9;
-  --shadow:0 1px 2px rgba(29,37,48,.04), 0 8px 24px -12px rgba(29,37,48,.12);
+  --surface-2:#f2f2f7;
+  --line:rgba(60,60,67,.29);
+  --line-soft:rgba(60,60,67,.12);
+  --ink:#1c1c1e;
+  --ink-2:#48484a;
+  --ink-3:#8e8e93;
+  --accent:#007aff;
+  --accent-soft:rgba(0,122,255,.12);
+  --done:#34c759;
+  --done-soft:rgba(52,199,89,.12);
+  --class:#ff9500;
+  --class-soft:rgba(255,149,0,.12);
+  --weekend:#af52de;
+  --weekend-soft:rgba(175,82,222,.12);
+  --exam:#ff3b30;
+  --exam-soft:rgba(255,59,48,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.04), 0 10px 30px -16px rgba(0,0,0,.18);
+  --radius-card:14px;
+  --radius-ctl:10px;
 }
 /* 进度环主题化（覆盖 SVG 属性，随深浅模式变化） */
 .ring-track{stroke:var(--line)}
@@ -39,52 +44,57 @@
 /* 跟随系统深浅模式：仅当 html 带 theme-auto 类时，在系统深色下套用暗色 */
 @media (prefers-color-scheme: dark){
   html.theme-auto{
-    --bg:#15171c;
-    --surface:#21242b;
-    --surface-2:#1a1d23;
-    --line:#33373f;
-    --line-soft:#2a2e35;
-    --ink:#e8ecf1;
-    --ink-2:#a8b1bd;
-    --ink-3:#79828f;
-    --accent:#7fb0e0;
-    --accent-soft:#1d2c3b;
-    --done:#5bb98c;
-    --done-soft:#19271f;
-    --class:#e0a857;
-    --class-soft:#33291a;
-    --weekend:#b89ad6;
-    --weekend-soft:#2a2338;
-    --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 24px -12px rgba(0,0,0,.6);
+    --bg:#000000;
+    --surface:#1c1c1e;
+    --surface-2:#2c2c2e;
+    --line:rgba(84,84,88,.65);
+    --line-soft:rgba(84,84,88,.4);
+    --ink:#ffffff;
+    --ink-2:#aeaeb2;
+    --ink-3:#8e8e93;
+    --accent:#0a84ff;
+    --accent-soft:rgba(10,132,255,.28);
+    --done:#30d158;
+    --done-soft:rgba(48,209,88,.22);
+    --class:#ff9f0a;
+    --class-soft:rgba(255,159,10,.22);
+    --weekend:#bf5af2;
+    --weekend-soft:rgba(191,90,242,.22);
+    --exam:#ff453a;
+    --exam-soft:rgba(255,69,58,.22);
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 34px -16px rgba(0,0,0,.8);
   }
-  html.theme-auto .cell:hover{border-color:#3c424c;background:#262a31}
-  html.theme-auto .cell.wk:hover{background:#2a2236}
-  html.theme-auto .cell.active{background:#2a2e36;border-color:var(--ink)}
-  html.theme-auto .cell-bar{background:#33373f}
+  html.theme-auto .cell{background:var(--surface-2)}
+  html.theme-auto .cell.wk{background:var(--weekend-soft)}
+  html.theme-auto .cell:hover{border-color:var(--line);background:var(--surface)}
+  html.theme-auto .cell.wk:hover{background:var(--weekend-soft)}
+  html.theme-auto .cell.active{background:var(--surface);border-color:var(--ink)}
+  html.theme-auto .cell-bar{background:var(--line)}
   html.theme-auto .task .tick{background:var(--surface-2)}
-  html.theme-auto .cls-badge.exam{background:#3a2224;color:#ff8c82}
-  html.theme-auto .t-mark.exam{background:#3a2224;color:#ff8c82}
-  html.theme-auto .mp-chip{color:#5bb98c;background:#16301f;border-color:#2c5236}
-  html.theme-auto .day{background:linear-gradient(180deg,#23262d,#1a1d23)}
-  html.theme-auto .day-h{background:linear-gradient(180deg,#262a31,#1f232a)}
-  html.theme-auto .day.wk .day-h{background:linear-gradient(180deg,#2a2336,#241f30)}
-  html.theme-auto .rm-rule-del{border-color:#5a2e2c;background:#3a2224;color:#ff8c82}
+  html.theme-auto .tick{border-color:var(--line)}
+  html.theme-auto .cls-badge.exam{background:var(--exam-soft);color:var(--exam)}
+  html.theme-auto .t-mark.exam{background:var(--exam-soft);color:var(--exam)}
+  html.theme-auto .mp-chip{color:var(--done);background:var(--done-soft);border-color:rgba(48,209,88,.4)}
+  html.theme-auto .day{background:var(--surface)}
+  html.theme-auto .day-h{background:var(--surface-2)}
+  html.theme-auto .day.wk .day-h{background:var(--weekend-soft)}
+  html.theme-auto .rm-rule-del{border-color:rgba(255,69,58,.5);background:var(--exam-soft);color:var(--exam)}
   html.theme-auto .ph-add{background:var(--surface-2)}
-  html.theme-auto .ph-add:hover{border-color:#3c424c;color:var(--ink)}
-  html.theme-auto .cell{background:#1a1d23}
-  html.theme-auto .cell.wk{background:#2a2338}
-  html.theme-auto .tick{border-color:#3c424c}
-  html.theme-auto body .fld:focus{background:var(--surface-2);border-color:var(--ink)}
+  html.theme-auto .ph-add:hover{border-color:var(--line);color:var(--ink)}
+  html.theme-auto body .fld:focus{background:var(--surface-2);border-color:var(--accent)}
   html.theme-auto body .rm-rule-text,
-  html.theme-auto body .rm-rule-text:focus{background:var(--surface-2);border-color:var(--ink);color:var(--ink)}
-  html.theme-auto body .bind-input:focus{background:var(--surface-2);border-color:var(--ink)}
-  html.theme-auto .t-edit:hover{background:#2a2e35}
-  html.theme-auto .btn:hover{border-color:#3c424c;color:var(--ink)}
-  html.theme-auto .sync-badge:hover{border-color:#3c424c;color:var(--ink)}
+  html.theme-auto body .rm-rule-text:focus{background:var(--surface);border-color:var(--accent);color:var(--ink)}
+  html.theme-auto body .bind-input:focus{background:var(--surface-2);border-color:var(--accent)}
+  html.theme-auto .t-edit:hover{background:var(--surface-2)}
+  html.theme-auto .btn:hover{border-color:var(--line);color:var(--ink)}
+  html.theme-auto .sync-badge:hover{border-color:var(--line);color:var(--ink)}
+  html.theme-auto .bind-main{background:var(--accent);color:#fff}
+  html.theme-auto .bind-go{color:#fff}
+  html.theme-auto .bind-skip{color:var(--ink-2)}
   html.theme-auto .att-drop:hover{border-color:var(--accent);color:var(--ink-2)}
   html.theme-auto .att-img{background:var(--surface-2)}
   html.theme-auto .imgview img{background:var(--surface-2)}
-  html.theme-auto .seg button.on{color:var(--bg)}
+  html.theme-auto .seg button.on{background:rgba(255,255,255,.18);color:var(--ink)}
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -100,8 +110,7 @@ button{font-family:inherit;font-size:inherit;color:inherit;border:none;backgroun
 /* ---------- hero ---------- */
 .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:24px;flex-wrap:wrap}
 .eyebrow{font-size:11px;letter-spacing:.22em;color:var(--ink-3);font-weight:600;margin-bottom:8px}
-h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,serif;
-   font-size:34px;line-height:1.15;font-weight:600;letter-spacing:.01em}
+h1{font-size:32px;line-height:1.12;font-weight:700;letter-spacing:-.02em}
 .lead{margin-top:9px;color:var(--ink-2);font-size:13.5px}
 .lead b{color:var(--ink);font-weight:600}
 .hero-right{display:flex;align-items:center;gap:18px}
@@ -124,7 +133,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .month-sel{appearance:none;-webkit-appearance:none;cursor:pointer;min-width:118px}
 .seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
 .seg button{padding:6px 15px;border-radius:6px;font-size:13px;color:var(--ink-2);transition:.15s}
-.seg button.on{background:var(--ink);color:#fff}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.14),0 1px 1px rgba(0,0,0,.05)}
 .btn{padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);
      font-size:13px;color:var(--ink-2);transition:.15s}
 .btn:hover{border-color:#d5cfc3;color:var(--ink)}
@@ -143,30 +152,30 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .cal-head span{text-align:center;font-size:11.5px;color:var(--ink-3);letter-spacing:.06em;padding:2px 0}
 .cal-head span.wk{color:var(--weekend)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.cell{position:relative;height:76px;border-radius:9px;background:#f3f1ea;
+.cell{position:relative;height:76px;border-radius:11px;background:var(--surface-2);
       border:1px solid transparent;padding:7px 8px;display:flex;flex-direction:column;
       justify-content:space-between;text-align:left;transition:.15s;overflow:hidden}
-.cell:hover{border-color:#d8d2c6;background:#eceae3}
+.cell:hover{border-color:var(--line);background:var(--surface)}
 .cell.out{opacity:.28;pointer-events:none;background:transparent}
 .cell.out.nav{opacity:.5;pointer-events:auto;cursor:pointer}
 .cell.out.nav:hover{border-color:var(--accent);background:var(--surface-2);opacity:.95}
 .cell.out.nav .nav-hint{position:absolute;top:3px;right:6px;font-size:14px;line-height:1;color:var(--accent);opacity:.6}
 .cell.wk{background:var(--weekend-soft)}
-.cell.wk:hover{background:#ece4f7}
-.cell.today{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft) inset}
-.cell.active{border-color:var(--ink);background:#eceae3;box-shadow:0 0 0 1px var(--ink)}
+.cell.wk:hover{background:var(--weekend-soft)}
+.cell.today{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent) inset}
+.cell.active{border-color:var(--ink);background:var(--surface);box-shadow:0 0 0 1px var(--ink)}
 .dnum{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
 .cell.full .dnum{color:var(--done)}
 .cell-top{display:flex;align-items:flex-start;justify-content:space-between;gap:4px}
 .cls-badge{font-size:9px;line-height:1;padding:2px 4px;border-radius:3px;
            background:var(--class-soft);color:var(--class);font-weight:600;letter-spacing:.02em}
-.cls-badge.exam{background:#fdecec;color:#c0392b}
+.cls-badge.exam{background:var(--exam-soft);color:var(--exam)}
 .cls-badge.mark{background:var(--accent-soft);color:var(--accent)}
 .cls-badge.cam{background:var(--surface-2);color:var(--ink-3)}
 .cell-badges{display:inline-flex;gap:2px;align-items:center;flex-wrap:wrap}
 .t-mark{display:inline-block;font-size:10px;line-height:1;padding:2px 5px;border-radius:3px;margin-right:6px;
   background:var(--accent-soft);color:var(--accent);font-weight:600;vertical-align:1px}
-.t-mark.exam{background:#fdecec;color:#c0392b}
+.t-mark.exam{background:var(--exam-soft);color:var(--exam)}
 
 /* 图片预览（点击附件缩略图 / 日期面板里的图片） */
 .imgview{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
@@ -206,7 +215,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .panel-head{padding:15px 18px 13px;border-bottom:1px solid var(--line-soft);display:flex;
             align-items:baseline;justify-content:space-between;gap:10px;flex:none}
 .ph-left{display:flex;align-items:baseline;gap:8px}
-.ph-day{font-family:"Songti SC",Georgia,serif;font-size:20px;font-weight:600}
+.ph-day{font-size:20px;font-weight:600;letter-spacing:-.01em}
 .ph-dow{font-size:12px;color:var(--ink-3)}
 .ph-tag{font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--weekend-soft);color:var(--weekend);font-weight:600}
 .ph-count{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -230,7 +239,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .t-time{font-size:11px;color:var(--class);background:var(--class-soft);padding:1px 6px;border-radius:4px;
         margin-left:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .task.cls .t-label{font-weight:600}
-.mp-chip{display:inline-block;font-size:10.5px;color:#0a8f5b;background:#e4f5ec;border:1px solid #bfe5d2;
+.mp-chip{display:inline-block;font-size:10.5px;color:var(--done);background:var(--done-soft);border:1px solid rgba(48,209,89,.35);
          padding:1px 7px;border-radius:99px;margin-left:6px;white-space:nowrap;cursor:pointer;
          -webkit-tap-highlight-color:transparent;transition:.12s;line-height:1.5;vertical-align:1px}
 .mp-chip:hover{background:#d3efe0}
@@ -239,8 +248,8 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 
 /* ---------- toast ---------- */
 #toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(14px);
-       max-width:min(420px,88vw);background:#2e2c27;color:#fff;font-size:13px;line-height:1.55;
-       padding:11px 17px;border-radius:11px;box-shadow:0 8px 26px rgba(0,0,0,.28);
+       max-width:min(420px,88vw);background:rgba(0,0,0,.86);color:#fff;font-size:13px;line-height:1.55;
+       padding:11px 17px;border-radius:13px;box-shadow:0 8px 26px rgba(0,0,0,.28);
        opacity:0;pointer-events:none;transition:.25s;z-index:220;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -249,9 +258,9 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .day{background:var(--surface);border:1px solid var(--line);border-radius:13px;
      box-shadow:var(--shadow);overflow:hidden}
 .day-h{display:flex;align-items:center;gap:11px;padding:11px 16px;border-bottom:1px solid var(--line-soft);
-       background:linear-gradient(180deg,#fdfcfa,#faf9f6)}
-.day.wk .day-h{background:linear-gradient(180deg,#faf7fd,#f6f1fb)}
-.day-h .dh-d{font-family:"Songti SC",Georgia,serif;font-size:17px;font-weight:600;min-width:56px}
+       background:var(--surface-2)}
+.day.wk .day-h{background:var(--weekend-soft)}
+.day-h .dh-d{font-size:17px;font-weight:600;min-width:56px;letter-spacing:-.01em}
 .day-h .dh-w{font-size:12px;color:var(--ink-3);min-width:30px}
 .day-h .dh-cls{font-size:11.5px;color:var(--class);background:var(--class-soft);padding:2px 8px;border-radius:5px;font-weight:600}
 .day-h .dh-sp{flex:1}
@@ -326,7 +335,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .bind{background:var(--surface);border-radius:16px;padding:26px 24px 22px;width:100%;max-width:380px;
   box-shadow:0 24px 60px -18px rgba(29,37,48,.4)}
 .bind-eyebrow{font-size:10.5px;letter-spacing:.2em;color:var(--ink-3);font-weight:600;margin-bottom:8px}
-.bind-title{font-family:"Songti SC","Source Han Serif SC",Georgia,serif;font-size:22px;font-weight:600;margin-bottom:8px}
+.bind-title{font-size:22px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
 .bind-lead{font-size:13px;color:var(--ink-2);line-height:1.7;margin-bottom:18px}
 .bind-main{display:block;width:100%;padding:12px;border-radius:10px;background:var(--ink);color:#fff;
   font-size:14px;font-weight:500;transition:.15s}
@@ -337,11 +346,15 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .bind-input{flex:1;min-width:0;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
   font-size:16px;letter-spacing:.18em;text-transform:uppercase;font-family:inherit;
   font-variant-numeric:tabular-nums;background:var(--surface-2);color:var(--ink);outline:none;transition:.15s}
-.bind-input:focus{border-color:var(--ink);background:#fff}
+.bind-input:focus{border-color:var(--accent);background:var(--surface)}
 .bind-go{flex:none;padding:11px 20px;border-radius:10px;background:var(--accent);color:#fff;
   font-size:14px;font-weight:500;transition:.15s}
 .bind-go:active{transform:scale(.97)}
-.bind-err{font-size:12px;color:#c0564f;min-height:18px;margin-top:8px}
+.bind-err{font-size:12px;color:var(--exam);min-height:18px;margin-top:8px}
+.code-show{margin-bottom:16px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.cs-label{font-size:12px;color:var(--ink-2);margin-bottom:8px}
+.cs-row{display:flex;align-items:center;gap:10px}
+.cs-val{font-size:20px;font-weight:700;letter-spacing:.18em;font-family:inherit;color:var(--ink);font-variant-numeric:tabular-nums}
 .bind-skip{display:block;width:100%;margin-top:6px;padding:8px;font-size:12.5px;color:var(--ink-3);
   text-decoration:underline;text-underline-offset:3px}
 .bind-note{margin-top:14px;padding:11px 13px;border-radius:9px;background:var(--surface-2);
@@ -350,7 +363,9 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .ver-line b{color:var(--ink-2)}
 
 /* ---------- 提醒设置 ---------- */
-.remind{width:min(440px,92vw);max-height:90vh;overflow:auto}
+.remind{width:min(440px,92vw);max-height:90vh;overflow:auto;background:var(--surface);
+  border-radius:18px;padding:22px 22px 20px;box-shadow:0 24px 60px -18px rgba(29,37,48,.45);
+  border:1px solid var(--line-soft)}
 .rm-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
   padding:13px 2px;border-bottom:1px solid var(--line-soft)}
 .rm-label{font-size:14px;color:var(--ink);font-weight:500}
@@ -358,8 +373,8 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
   background:var(--surface);color:var(--ink);font-family:inherit}
 .rm-days{align-items:flex-start;flex-direction:column;gap:10px}
 .rm-daybox{display:flex;flex-wrap:wrap;gap:9px}
-.rm-daybox label{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);
-  background:var(--surface-2);padding:6px 11px;border-radius:8px;border:1px solid var(--line-soft);cursor:pointer}
+.rm-daybox label{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--ink-2);
+  background:var(--surface);padding:5px 10px;border-radius:8px;border:1px solid var(--line-soft);cursor:pointer}
 .rm-daybox input{accent-color:var(--done)}
 .rm-actions{display:flex;gap:12px;align-items:center;margin-top:18px}
 .rm-actions .bind-skip{margin-top:0}
@@ -378,10 +393,10 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .rm-rule{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface-2)}
 .rm-rule-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
 .rm-rule-time{flex:none}
-.rm-rule-del{margin-left:auto;font-size:12px;padding:5px 12px;border:1px solid #e2c9c6;border-radius:8px;background:#fbeeed;color:#c0564f;cursor:pointer}
+.rm-rule-del{margin-left:auto;font-size:12px;padding:5px 12px;border:1px solid rgba(255,59,48,.4);border-radius:8px;background:var(--exam-soft);color:var(--exam);cursor:pointer}
 .rm-rule-del:active{transform:scale(.97)}
-.rm-rule-text{width:100%;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:#fff;color:var(--ink)}
-.rm-rule-text:focus{border-color:var(--ink);background:#fff}
+.rm-rule-text{width:100%;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:var(--surface);color:var(--ink)}
+.rm-rule-text:focus{border-color:var(--accent);background:var(--surface)}
 
 /* ---------- 自定义条目 / 附件 ---------- */
 .task{position:relative;cursor:pointer}
@@ -402,7 +417,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .fld-label{display:block;font-size:12px;color:var(--ink-3);margin:14px 0 6px;font-weight:600;letter-spacing:.03em}
 .fld{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:15px;
   font-family:inherit;background:var(--surface);color:var(--ink);outline:none;transition:.15s}
-.fld:focus{border-color:var(--ink);background:#fff}
+.fld:focus{border-color:var(--accent);background:var(--surface)}
 .att-drop{border:1.5px dashed var(--line);border-radius:10px;padding:18px;text-align:center;
   color:var(--ink-3);font-size:13px;cursor:pointer;background:var(--surface-2);transition:.15s}
 .att-drop:hover{border-color:var(--accent);color:var(--ink-2)}
@@ -412,8 +427,8 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 .att-row img{width:40px;height:40px;object-fit:cover;border-radius:6px;flex:none}
 .att-row .nm{font-size:12.5px;color:var(--ink);flex:1;min-width:0;overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap}
-.att-row .rm{color:#c0564f;font-size:12px;background:none;padding:4px 6px;border-radius:6px;flex:none}
-.att-row .rm:hover{background:#f7e9e7}
+.att-row .rm{color:var(--exam);font-size:12px;background:none;padding:4px 6px;border-radius:6px;flex:none}
+.att-row .rm:hover{background:var(--exam-soft)}
 
 @media print{
   body{background:#fff}
@@ -429,10 +444,82 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
   .task.on .tick::after{display:none}
   .task.on .t-label{text-decoration:none;color:var(--ink)}
 }
+
+/* ===== Apple 设备级外观 ===== */
+.mac-titlebar,.mac-sidebar{display:none}
+.mac-light{display:inline-block;width:12px;height:12px;border-radius:50%}
+.mac-lights{display:flex;gap:8px;align-items:center}
+.sheet-done{display:none}
+
+/* ---------- macOS：窗口外壳 + 侧边栏 ---------- */
+html.os-macos body{background:#dadade}
+html.os-macos .wrap{max-width:1200px;margin:24px auto;padding:0;background:var(--surface);
+  border-radius:12px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.32);border:1px solid rgba(0,0,0,.18)}
+html.os-macos .mac-titlebar{display:flex;align-items:center;justify-content:center;position:relative;
+  height:44px;background:rgba(246,246,248,.72);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line-soft);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+html.os-macos .mac-title{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.01em}
+html.os-macos .mac-lights{position:absolute;left:16px;top:0;bottom:0}
+html.os-macos .mac-light.red{background:#ff5f57}
+html.os-macos .mac-light.yellow{background:#febc2e}
+html.os-macos .mac-light.green{background:#28c840}
+html.os-macos .hero{margin:0;padding:16px 20px;border-bottom:1px solid var(--line-soft)}
+html.os-macos .eyebrow{display:none}
+html.os-macos h1{display:none}
+html.os-macos .toolbar{display:none}
+html.os-macos .board{grid-template-columns:240px minmax(0,1fr) 384px;gap:0;padding:0;align-items:stretch}
+html.os-macos .mac-sidebar{display:flex;flex-direction:column;padding:14px 10px;
+  background:var(--bg);border-right:1px solid var(--line-soft)}
+html.os-macos .cal{padding:16px 20px 20px}
+html.os-macos .view-list{grid-column:2 / -1;padding:16px 20px 20px}
+html.os-macos .foot{padding:18px 20px 24px;margin-top:0}
+html.os-macos .card{border:none;border-radius:0;box-shadow:none;background:var(--surface)}
+html.os-macos .cal{border-right:1px solid var(--line-soft)}
+html.os-macos{cursor:default}
+html.os-macos .sb-sec{margin-bottom:16px}
+html.os-macos .sb-head{font-size:11px;font-weight:600;color:var(--ink-3);text-transform:uppercase;
+  letter-spacing:.04em;padding:2px 8px 6px}
+html.os-macos .sb-item{display:block;width:100%;text-align:left;padding:6px 9px;border-radius:7px;
+  font-size:13.5px;color:var(--ink);cursor:default;background:none;border:none;font-family:inherit}
+html.os-macos .sb-item:hover{background:var(--line-soft)}
+html.os-macos .sb-item.on{background:var(--accent);color:#fff}
+html.os-macos .sb-item.on:hover{background:var(--accent)}
+html.os-macos .sb-actions{margin-top:auto}
+
+/* ---------- iPadOS / iOS：表单与弹窗质感 ---------- */
+html.os-ipados .overlay,html.os-ios .overlay{align-items:center;padding:0}
+html.os-ipados .bind,html.os-ipados .remind,html.os-ipados .edit,
+html.os-ios .bind,html.os-ios .remind,html.os-ios .edit{
+  border-radius:22px;max-width:520px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);
+  border:1px solid var(--line-soft);position:relative}
+html.os-ipados .bind,html.os-ipados .remind,html.os-ipados .edit,
+html.os-ios .bind,html.os-ios .remind,html.os-ios .edit{padding:26px 26px 24px}
+html.os-ipados .bind-title,html.os-ios .bind-title{font-size:24px}
+html.os-ipados .sheet-done,html.os-ios .sheet-done{display:inline-flex;position:absolute;top:14px;right:16px;
+  font-size:17px;font-weight:600;color:var(--accent);padding:4px 8px;border-radius:8px;cursor:pointer;
+  background:none;border:none;font-family:inherit}
+html.os-ipados .sheet-done:active,html.os-ios .sheet-done:active{opacity:.5}
+html.os-ipados .rm-rule,html.os-ios .rm-rule{border-radius:14px;padding:14px}
+html.os-ipados .seg button,html.os-ios .seg button{padding:8px 18px;font-size:14px}
+html.os-ipados .cell,html.os-ios .cell{height:84px}
+html.os-ipados .task,html.os-ios .task{min-height:50px;padding:11px 10px}
+html.os-ipados .tick,html.os-ios .tick{width:22px;height:22px}
+html.os-ipados .t-label,html.os-ios .t-label{font-size:15px}
+html.os-ipados .fld,html.os-ipados .rm-rule-text,html.os-ipados .bind-input,
+html.os-ios .fld,html.os-ios .rm-rule-text,html.os-ios .bind-input{font-size:16px;padding:13px 14px}
 </style>
 </head>
 <body>
 <div class="wrap">
+
+  <div class="mac-titlebar" aria-hidden="true">
+    <div class="mac-lights">
+      <span class="mac-light red"></span>
+      <span class="mac-light yellow"></span>
+      <span class="mac-light green"></span>
+    </div>
+    <div class="mac-title">学习打卡表</div>
+  </div>
 
   <header class="hero">
     <div>
@@ -474,9 +561,9 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
     </div>
     <div class="spacer"></div>
     <div class="legend">
-      <span><i style="background:#3d8a66"></i>已完成</span>
-      <span><i style="background:#a9741f"></i>课程</span>
-      <span><i style="background:#7a5aa6"></i>周末专项</span>
+      <span><i style="background:#34c759"></i>已完成</span>
+      <span><i style="background:#ff9500"></i>课程</span>
+      <span><i style="background:#af52de"></i>周末专项</span>
     </div>
     <button class="btn" id="btnRemind" type="button">提醒设置</button>
     <button class="btn" id="btnAdd" type="button">＋ 添加条目</button>
@@ -485,6 +572,24 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
   </div>
 
   <div class="board" id="board">
+    <aside class="mac-sidebar" id="macSidebar">
+      <div class="sb-sec">
+        <div class="sb-head">视图</div>
+        <button class="sb-item" id="sbCal" type="button">日历</button>
+        <button class="sb-item" id="sbList" type="button">清单</button>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-head">月份</div>
+        <div class="sb-months" id="sbMonths"></div>
+      </div>
+      <div class="sb-sec sb-actions">
+        <button class="sb-item" id="sbSync" type="button">同步设置</button>
+        <button class="sb-item" id="sbRemind" type="button">提醒设置</button>
+        <button class="sb-item" id="sbAdd" type="button">添加条目</button>
+        <button class="sb-item" id="sbPrint" type="button">打印</button>
+        <button class="sb-item" id="sbReset" type="button">重置</button>
+      </div>
+    </aside>
     <div class="card cal view-cal" id="calCard">
       <div class="cal-head">
         <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span class="wk">六</span><span class="wk">日</span>
@@ -519,7 +624,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
     ⑤ 新概念英语（作业+单词）1 篇、教材帮语数英各 1 课属<b>周末专项</b>，每个周末完成一次即可，统一排在周六。<br>
     ⑥ 勾选进度自动保存并云同步，刷新不丢失。<span class="no-print">换设备输入同一打卡码即可接续。</span><br>
     ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
-    <div class="ver-line">版本 <b id="verBadge">v2.4.5</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
+    <div class="ver-line">版本 <b id="verBadge">v2.5.0</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
   </div>
 </div>
 
@@ -536,7 +641,15 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
   <div class="bind">
     <div class="bind-eyebrow">跨设备同步</div>
     <h2 class="bind-title">绑定打卡码</h2>
-    <p class="bind-lead">一个打卡码对应一份云端进度。手机和电脑输入相同的码，勾选就会自动互通。</p>
+    <button class="sheet-done" id="bindDone" type="button">完成</button>
+    <p class="bind-lead">一个打卡码对应一份云端进度。手机和电脑输入相同的码，勾选就会自动互通。已绑定的设备，点下方可直接复制本机打卡码，再到另一台设备粘贴即可。</p>
+    <div id="codeShow" class="code-show" style="display:none">
+      <div class="cs-label">我的打卡码（另一台设备输入同一码即可接续）</div>
+      <div class="cs-row">
+        <span class="cs-val" id="codeShowVal">------</span>
+        <button class="bind-go" id="btnCopyCode" type="button">复制</button>
+      </div>
+    </div>
     <button class="bind-main" id="btnCreateCode" type="button">生成新的打卡码</button>
     <div class="bind-or">或输入已有的打卡码</div>
     <div class="bind-row">
@@ -553,6 +666,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
   <div class="remind">
     <div class="bind-eyebrow">提醒设置</div>
     <h2 class="bind-title">每日 / 专项提醒</h2>
+    <button class="sheet-done" id="rmDone" type="button">完成</button>
     <p class="bind-lead">打开后，在设定时间若当天还有未完成项，会弹出提醒。<b>可随时自行开关或调节。</b></p>
 
     <div class="rm-sec">
@@ -599,6 +713,7 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
   <div class="edit">
     <div class="bind-eyebrow">条目设置</div>
     <h2 class="bind-title" id="editTitle">编辑条目</h2>
+    <button class="sheet-done" id="editDone" type="button">完成</button>
 
     <label class="fld-label">名称</label>
     <input class="fld" id="editLabel" maxlength="60" placeholder="如：数学错题整理">
@@ -657,6 +772,26 @@ h1{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,ser
 (function(){
 'use strict';
 var LOCAL_MODE = true;
+
+/* ---------- 设备识别：在 <html> 上标记 os-ios / os-ipados / os-macos ---------- */
+function detectOS(){
+  try {
+    var ua = navigator.userAgent || '';
+    var plat = navigator.platform || '';
+    var maxTouch = navigator.maxTouchPoints || 0;
+    if (/iPhone|iPod/.test(ua)) return 'ios';                                  // iPhone
+    if (/iPad/.test(ua) || (plat === 'MacIntel' && maxTouch > 1)) return 'ipados'; // iPad（含 iPadOS 13+ 桌面级 UA）
+    if (/Macintosh|Mac OS X/.test(ua) || plat.indexOf('Mac') === 0) return 'macos'; // Mac
+    if (maxTouch > 1) return 'ipados';                                         // 其它触屏平板
+    return 'other';                                                            // 非 Apple 桌面：保持通用样式
+  } catch (e) { return 'other'; }
+}
+(function(){
+  var os = detectOS();
+  var dh = document.documentElement;
+  dh.classList.add('os-' + os);
+  dh.setAttribute('data-os', os);
+})();
 
 function pad(n){ return String(n).padStart(2,'0'); }
 var MONTHS = [
@@ -1238,6 +1373,7 @@ function refreshAll(){
   if (panel.style.display !== 'none') renderPanel();
   if (listWrap.style.display !== 'none') renderList();
   syncStats();
+  syncSb();
 }
 
 function onTaskClick(e){
@@ -1411,6 +1547,7 @@ function setView(v){
   listWrap.style.display = isCal ? 'none' : '';
   board.classList.toggle('solo', !isCal);
   if (isCal) renderPanel(); else renderList();   // 切换视图时重渲染，避免切月后面板残留旧月任务
+  syncSb();
 }
 vCal.addEventListener('click', function(){ setView('cal'); });
 vList.addEventListener('click', function(){ setView('list'); });
@@ -1572,16 +1709,20 @@ function schedulePull(delay){
 }
 
 /* ---------- bind overlay ---------- */
+var codeShow = document.getElementById('codeShow');
+var codeShowVal = document.getElementById('codeShowVal');
 function showOverlay(){
   if (LOCAL_MODE) return;
   bindErr.textContent = '';
+  if (cloudCode) { codeShow.style.display = ''; codeShowVal.textContent = cloudCode; }
+  else { codeShow.style.display = 'none'; }
   overlay.style.display = '';
   setTimeout(function(){ bindInput.focus(); }, 60);
 }
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.4.5';
+var VERSION = '2.5.0';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
@@ -1603,8 +1744,8 @@ function applyThemeAuto(){
 
 function defaultReminder(){
   return {
-    examOn: true, examAdv: 1,
-    rules: [ { id:'r1', on:true, time:'19:30', days:[1,3], text:'' } ]
+    examOn: false, examAdv: 1,
+    rules: [ ]
   };
 }
 function loadReminder(){
@@ -1614,16 +1755,16 @@ function loadReminder(){
     var o = JSON.parse(raw);
     // 兼容旧格式 {on,time,days,examOn,examAdv}：升级为 rules 数组
     if (!Array.isArray(o.rules)) {
-      o.rules = [ { id:'r1', on:!!o.on, time:(typeof o.time==='string'?o.time:'19:30'), days:(Array.isArray(o.days)?o.days:[1,3]), text:'' } ];
+      o.rules = [ { id:'r1', on:!!o.on, time:(typeof o.time==='string'?o.time:'19:30'), days:(Array.isArray(o.days)?o.days:[]), text:'' } ];
     }
     (o.rules || []).forEach(function(r){
       if (typeof r.id !== 'string' || !r.id) r.id = 'r' + Math.random().toString(36).slice(2,8);
-      if (typeof r.on !== 'boolean') r.on = true;
+      if (typeof r.on !== 'boolean') r.on = false;
       if (typeof r.time !== 'string') r.time = '19:30';
-      if (!Array.isArray(r.days)) r.days = [1,3];
+      if (!Array.isArray(r.days)) r.days = [];
       if (typeof r.text !== 'string') r.text = '';
     });
-    o.examOn = o.examOn !== false;                        // 默认开启考试提醒
+    o.examOn = (o.examOn === true);                        // 默认关闭考试提醒；仅保留用户显式开启过的值
     o.examAdv = (typeof o.examAdv === 'number') ? o.examAdv : 1;
     return o;
   } catch (e) { return defaultReminder(); }
@@ -1823,6 +1964,22 @@ function hardUnbind(reason){
 }
 
 document.getElementById('syncBadge').addEventListener('click', showOverlay);
+document.getElementById('btnCopyCode').addEventListener('click', function(){
+  var t = cloudCode || '';
+  if (!t) return;
+  function done(){ showToast('已复制打卡码：' + t + '（到另一台设备粘贴即可）'); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(done, function(){ fallbackCopy(t, done); });
+  } else { fallbackCopy(t, done); }
+});
+function fallbackCopy(t, done){
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  } catch (e) { showToast('复制失败，请手动记录打卡码：' + t); }
+}
 document.getElementById('btnSkip').addEventListener('click', function(){
   hideOverlay();
   try { localStorage.setItem('checkin-bind-asked', '1'); } catch (e) {}
@@ -1879,7 +2036,7 @@ document.getElementById('rmSave').addEventListener('click', function(){
   fireExamReminderIfDue();   // 若有考试，考试提示会覆盖通用提示
 });
 document.getElementById('rmAdd').addEventListener('click', function(){
-  rmRules.appendChild(buildRuleEl({ id: 'r' + Date.now().toString(36), on: true, time: '19:30', days: [], text: '' }));
+  rmRules.appendChild(buildRuleEl({ id: 'r' + Date.now().toString(36), on: false, time: '19:30', days: [], text: '' }));
 });
 
 document.addEventListener('visibilitychange', function(){
@@ -2087,9 +2244,50 @@ editDrop.addEventListener('drop', function(e){
   if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) handleFiles(e.dataTransfer.files, editId);
 });
 
+/* ---------- macOS 侧边栏 ---------- */
+var sbMonths = document.getElementById('sbMonths');
+function renderSbMonths(){
+  if (!sbMonths) return;
+  sbMonths.innerHTML = '';
+  MONTHS.forEach(function(m){
+    var b = document.createElement('button');
+    b.className = 'sb-item'; b.type = 'button';
+    b.setAttribute('data-key', m.key);
+    b.textContent = m.label;
+    b.addEventListener('click', function(){ switchMonth(m.key); });
+    sbMonths.appendChild(b);
+  });
+}
+function syncSb(){
+  if (sbMonths) {
+    var items = sbMonths.querySelectorAll('.sb-item');
+    for (var i = 0; i < items.length; i++) {
+      items[i].classList.toggle('on', items[i].getAttribute('data-key') === (curM && curM.key));
+    }
+  }
+  var sCal = document.getElementById('sbCal'), sList = document.getElementById('sbList');
+  if (sCal) sCal.classList.toggle('on', listWrap.style.display === 'none');
+  if (sList) sList.classList.toggle('on', listWrap.style.display !== 'none');
+}
+function bindSb(id, fn){ var el = document.getElementById(id); if (el) el.addEventListener('click', fn); }
+bindSb('sbCal', function(){ setView('cal'); });
+bindSb('sbList', function(){ setView('list'); });
+bindSb('sbSync', showOverlay);
+bindSb('sbRemind', openRemind);
+bindSb('sbAdd', function(){ openAdd(selected); });
+bindSb('sbPrint', function(){ if (listWrap.style.display === 'none') setView('list'); window.print(); });
+bindSb('sbReset', function(){ var b = document.getElementById('btnReset'); if (b && b.click) b.click(); });
+
+/* 弹窗「完成」按钮（iPadOS / iOS 显示）：绑定=关闭；提醒/编辑=保存并关闭 */
+var rmSaveBtn = document.getElementById('rmSave'), editSaveBtn = document.getElementById('editSave');
+bindSb('rmDone', function(){ if (rmSaveBtn && rmSaveBtn.click) rmSaveBtn.click(); });
+bindSb('editDone', function(){ if (editSaveBtn && editSaveBtn.click) editSaveBtn.click(); });
+bindSb('bindDone', hideOverlay);
+
 /* ---------- init ---------- */
 applyThemeAuto();   // 尽早套用深浅模式，避免首屏闪烁
 document.getElementById('verBadge').textContent = 'v' + VERSION;
+renderSbMonths();    // 构建 macOS 侧边栏月份列表
 // 默认打开包含今天的月份（不在可用月份范围内则取第一个月）
 (function(){
   var ym = TODAY.slice(0, 7), def = null;
