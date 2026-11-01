@@ -1,66 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
   <defs>
-    <linearGradient id="lgBg" x1="0" y1="0" x2="0.28" y2="1">
-      <stop offset="0" stop-color="#7A86FF"/>
-      <stop offset="0.42" stop-color="#2E37DA"/>
-      <stop offset="1" stop-color="#121A66"/>
+    <linearGradient id="lgBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6BD0FF"/>
+      <stop offset="0.42" stop-color="#0A84FF"/>
+      <stop offset="1" stop-color="#0057B8"/>
     </linearGradient>
-    <radialGradient id="rgHi" cx="0.28" cy="0.16" r="0.9">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.36"/>
-      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.08"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
     <linearGradient id="lgGloss" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.36"/>
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.52"/>
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="lgInner" x1="0" y1="0.6" x2="0" y2="1">
-      <stop offset="0" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="1" stop-color="#000000" stop-opacity="0.38"/>
+    <linearGradient id="lgCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E9F2FF"/>
     </linearGradient>
-    <linearGradient id="lgCheck" gradientUnits="userSpaceOnUse" x1="46" y1="126" x2="140" y2="54">
-      <stop offset="0" stop-color="#5AC8FA"/>
-      <stop offset="0.45" stop-color="#30D158"/>
-      <stop offset="1" stop-color="#8BF08B"/>
-    </linearGradient>
-    <clipPath id="cpIcon"><rect x="0" y="0" width="180" height="180" rx="42"/></clipPath>
-    <filter id="fShadow" x="-40%" y="-40%" width="180%" height="180%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4.5" flood-color="#050A2E" flood-opacity="0.5"/>
-    </filter>
+    <clipPath id="cpIcon"><rect x="6" y="6" width="168" height="168" rx="41"/></clipPath>
   </defs>
 
   <g clip-path="url(#cpIcon)">
-    <rect x="0" y="0" width="180" height="180" fill="url(#lgBg)"/>
-    <rect x="0" y="0" width="180" height="180" fill="url(#rgHi)"/>
+    <rect x="6" y="6" width="168" height="168" fill="url(#lgBg)"/>
+    <rect x="6" y="6" width="168" height="82" fill="url(#lgGloss)"/>
+  </g>
+  <rect x="6" y="6" width="168" height="168" rx="41" fill="none" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="2"/>
 
-    <!-- 日历点阵：每一天一个点（4 列 × 4 行） -->
-    <g fill="#FFFFFF" opacity="0.12">
-      <circle cx="32" cy="30" r="4.6"/><circle cx="70" cy="30" r="4.6"/>
-      <circle cx="108" cy="30" r="4.6"/><circle cx="146" cy="30" r="4.6"/>
-      <circle cx="32" cy="64" r="4.6"/><circle cx="70" cy="64" r="4.6"/>
-      <circle cx="108" cy="64" r="4.6"/><circle cx="146" cy="64" r="4.6"/>
-      <circle cx="32" cy="98" r="4.6"/><circle cx="70" cy="98" r="4.6"/>
-      <circle cx="108" cy="98" r="4.6"/><circle cx="146" cy="98" r="4.6"/>
-      <circle cx="32" cy="132" r="4.6"/><circle cx="70" cy="132" r="4.6"/>
-      <circle cx="108" cy="132" r="4.6"/><circle cx="146" cy="132" r="4.6"/>
-    </g>
+  <rect x="57" y="30" width="12" height="22" rx="6" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="111" y="30" width="12" height="22" rx="6" fill="#FFFFFF" opacity="0.95"/>
 
-    <!-- 弧形玻璃顶光 + 底部内阴影：釉面质感 -->
-    <path d="M0 0 H180 V62 Q90 108 0 62 Z" fill="url(#lgGloss)"/>
-    <rect x="0" y="0" width="180" height="180" fill="url(#lgInner)"/>
+  <rect x="42" y="42" width="96" height="98" rx="17" fill="url(#lgCard)"/>
+  <path d="M59 42 h62 a17 17 0 0 1 17 17 v9 h-96 v-9 a17 17 0 0 1 17 -17 z" fill="#0A84FF"/>
+
+  <circle cx="60" cy="56" r="3.4" fill="#FFFFFF" opacity="0.98"/>
+  <circle cx="90" cy="56" r="3.4" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="120" cy="56" r="3.4" fill="#FFFFFF" opacity="0.55"/>
+
+  <g fill="#CFE3FF">
+    <rect x="52" y="76" width="22" height="15" rx="4"/>
+    <rect x="79" y="76" width="22" height="15" rx="4"/>
+    <rect x="106" y="76" width="22" height="15" rx="4"/>
+    <rect x="52" y="97" width="22" height="15" rx="4"/>
+    <rect x="79" y="97" width="22" height="15" rx="4"/>
+    <rect x="52" y="118" width="22" height="15" rx="4"/>
+    <rect x="79" y="118" width="22" height="15" rx="4"/>
   </g>
 
-  <!-- 分段光轨对勾：一段 = 一天，连成完成的轨迹 -->
-  <g clip-path="url(#cpIcon)">
-    <g filter="url(#fShadow)">
-      <path d="M46 96 L76 126 L140 54" fill="none" stroke="url(#lgCheck)" stroke-width="17"
-            stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="18 6.5"/>
-      <path d="M45 95 L75 125 L139 53" fill="none" stroke="#FFFFFF" stroke-opacity="0.26" stroke-width="5.5"
-            stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="18 6.5"/>
-    </g>
-    <circle cx="140" cy="54" r="16" fill="#FFFFFF" opacity="0.16"/>
-    <circle cx="140" cy="54" r="5.6" fill="#FFFFFF" opacity="0.92"/>
-  </g>
-
-  <rect x="1" y="1" width="178" height="178" rx="41" fill="none" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="2"/>
+  <circle cx="117" cy="125" r="14" fill="#34C759"/>
+  <path d="M110.4 125.3 l5 5 L124 119" fill="none" stroke="#FFFFFF" stroke-width="3.8"
+        stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
