@@ -838,7 +838,9 @@ function rebuildBase(){
   TOTAL += Object.keys(fmTotal).length;
 }
 
-/* 公式活页本滚动规则：某周一旦勾选，该周其余日期不再提醒；取消勾选则恢复每天提醒 */
+/* 重建 day.tasks：以 day.base（含自定义/编辑/删除后的有效任务集）为准。
+   其中的公式类仍保留旧的「本周已勾选则其余日期隐藏」兼容规则；
+   因当前公式固定星期（学而思=周六/全联=周日，每周各仅一天），该规则实际等价无隐藏。 */
 function applyFmRolling(){
   var firstOn = {};
   days.forEach(function(day){
