@@ -478,6 +478,8 @@ html.os-macos .hero{margin:0;padding:16px 20px;border-bottom:1px solid var(--lin
 html.os-macos .eyebrow{display:none}
 html.os-macos h1{display:none}
 html.os-macos .toolbar{display:none}
+/* ⚠️ 以下 macOS 专属规则自 v2.6.0 起不再激活 —— 所有设备统一套用 os-ios 观感
+   （init 中固定 classList.add('os-ios')），此处保留备用，勿再依赖它们生效 */
 html.os-macos .board{grid-template-columns:240px minmax(0,1fr) 384px;gap:0;padding:0;align-items:stretch}
 /* 窄窗口防挤压（platform 专属多栏必须自带 max-width 响应式）：
    <1180px 退两栏（隐藏右侧面板），<860px 单栏（隐藏侧栏，清单/进度视图跨全宽） */
@@ -652,7 +654,7 @@ html.os-ios .fld,html.os-ios .rm-rule-text,html.os-ios .bind-input{font-size:16p
         ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
       </div>
     </details>
-    <div class="ver-line">版本 <b id="verBadge">v2.5.1</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
+    <div class="ver-line">版本 <b id="verBadge">v2.6.0</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
   </div>
 </div>
 
@@ -817,7 +819,11 @@ function detectOS(){
 (function(){
   var os = detectOS();
   var dh = document.documentElement;
-  dh.classList.add('os-' + os);
+  /* 统一观感（用户要求「所有设备都和 iPhone 一样」）：
+     无论 iPhone / iPad / Mac / 安卓 / Windows，一律套用 iOS 样式分支，
+     不再启用 macOS 窗口外壳与侧边栏、iPadOS 专属差异。
+     真实平台记录在 data-os 上（仅作调试标识，不参与样式）。 */
+  dh.classList.add('os-ios');
   dh.setAttribute('data-os', os);
 })();
 
@@ -1749,7 +1755,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.5.1';
+var VERSION = '2.6.0';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
