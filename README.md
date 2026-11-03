@@ -5,9 +5,10 @@
 ## 预览
 
 <p align="center">
-  <img src="checkin-app/preview-calendar.png" width="300" alt="学习打卡表 - 日历视图">
-  <img src="checkin-app/preview-panel.png" width="300" alt="学习打卡表 - 任务面板">
+  <img src="checkin-app/preview-grid.png" width="640" alt="学习打卡表 - 界面预览（深色 / 浅色 · 日历视图与任务面板）">
 </p>
+
+> 预览为 2×2 排列：上排深色 / 浅色日历视图，下排深色 / 浅色任务面板。
 
 ## 目录
 

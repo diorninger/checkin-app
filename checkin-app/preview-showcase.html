@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>学习打卡表 · 界面预览</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:52px 30px 60px;
+    background:radial-gradient(120% 90% at 50% 0%,#1b2440 0%,#0c1020 55%,#070a14 100%);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;
+    color:#fff;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:780px;margin:0 auto}
+  h1{font-size:27px;font-weight:800;text-align:center;margin:0 0 8px;letter-spacing:.02em}
+  .sub{text-align:center;color:#9aa6c0;font-size:13.5px;margin-bottom:40px;letter-spacing:.05em}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:38px 30px}
+  .cell{display:flex;flex-direction:column;align-items:center;gap:16px}
+  .phone{width:262px;background:#000;border-radius:42px;padding:11px;position:relative;
+    box-shadow:0 34px 70px -22px rgba(0,0,0,.7),0 0 0 2px rgba(255,255,255,.07),inset 0 0 0 1px rgba(255,255,255,.05)}
+  .phone::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);
+    width:96px;height:24px;background:#000;border-radius:0 0 15px 15px;z-index:3}
+  .screen{border-radius:31px;overflow:hidden;background:#fff;line-height:0}
+  .screen img{width:100%;height:auto;display:block}
+  .cap{font-size:14.5px;color:#e9eef8;font-weight:600;letter-spacing:.06em}
+  .tag{font-size:11px;color:#8b96b2;font-weight:500;letter-spacing:.12em;margin-top:-8px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>学习打卡表 · 界面预览</h1>
+    <div class="sub">深色 / 浅色 · 日历视图与任务面板</div>
+    <div class="grid">
+      <div class="cell">
+        <div class="phone"><div class="screen"><img src="shot-dark-cal.png" alt="深色·日历视图"></div></div>
+        <div class="cap">深色 · 日历视图</div>
+      </div>
+      <div class="cell">
+        <div class="phone"><div class="screen"><img src="shot-light-cal.png" alt="浅色·日历视图"></div></div>
+        <div class="cap">浅色 · 日历视图</div>
+      </div>
+      <div class="cell">
+        <div class="phone"><div class="screen"><img src="shot-dark-panel.png" alt="深色·任务面板"></div></div>
+        <div class="cap">深色 · 任务面板</div>
+      </div>
+      <div class="cell">
+        <div class="phone"><div class="screen"><img src="shot-light-panel.png" alt="浅色·任务面板"></div></div>
+        <div class="cap">浅色 · 任务面板</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
