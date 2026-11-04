@@ -505,6 +505,63 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
 .att-row .rm{color:var(--exam);font-size:12px;background:none;padding:4px 6px;border-radius:6px;flex:none}
 .att-row .rm:hover{background:var(--exam-soft)}
 
+/* ===== 报告 / 统计（v3.0.0） ===== */
+.report{position:fixed;inset:0;z-index:160;background:var(--bg);overflow-y:auto;
+  -webkit-overflow-scrolling:touch;display:none}
+.report.on{display:block}
+.rp-wrap{max-width:760px;margin:0 auto;padding:26px 20px 48px}
+.rp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.rp-eyebrow{font-size:12px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.rp-title{font-size:23px;font-weight:700;color:var(--ink);margin-top:4px;letter-spacing:-.01em}
+.rp-close{width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink-2);font-size:18px;line-height:1}
+.rp-switch{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;-webkit-overflow-scrolling:touch}
+.rp-chip{flex:none;padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink-2);font-size:13px}
+.rp-chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.rp-hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.rp-k{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:13px 12px}
+.rp-k .kl{font-size:11.5px;color:var(--ink-3);margin-bottom:5px}
+.rp-k .kv{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
+.rp-k .kv small{font-size:11.5px;font-weight:500;color:var(--ink-3);margin-left:2px}
+.rp-sec{margin-bottom:24px}
+.rp-sec h3{font-size:13.5px;color:var(--ink-2);font-weight:600;margin-bottom:11px}
+.rp-bars{display:flex;align-items:flex-end;gap:7px;height:132px;padding:10px 2px 0}
+.rp-bar{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;
+  align-items:center;gap:6px;height:100%}
+.rp-bar .col{width:100%;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,#34c759,#0a84ff);min-height:3px}
+.rp-bar .col.empty{background:var(--line)}
+.rp-bar .bl{font-size:10.5px;color:var(--ink-3);white-space:nowrap}
+.rp-bar .bv{font-size:11px;color:var(--ink-2);font-weight:600}
+.rp-bars-sm{height:104px}
+.rp-heat{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.rp-cell{aspect-ratio:1/1;border-radius:7px;background:var(--surface-2);border:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-3)}
+.rp-cell.l1{background:#d7f0dd;color:#1d6b34;border-color:transparent}
+.rp-cell.l2{background:#a6e0b6;color:#14512a;border-color:transparent}
+.rp-cell.l3{background:#5fc47c;color:#0d3a1e;border-color:transparent}
+.rp-cell.l4{background:#2f9d54;color:#fff;border-color:transparent}
+.rp-cell.blank{background:transparent;border-color:transparent}
+.rp-marks{display:flex;flex-wrap:wrap;gap:9px}
+.rp-mark{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:11px;padding:8px 12px;font-size:12.5px;color:var(--ink-2)}
+.rp-mark b{color:var(--ink);font-size:14px}
+.rp-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.rp-actions .bind-main{flex:1 1 100%;margin:0}
+.rp-actions .bind-skip{flex:1 1 0;min-width:0;margin:0}
+@media (max-width:420px){ .rp-hero{grid-template-columns:repeat(2,1fr)} }
+
+@media print{
+  body.rp-printing > *:not(#report){display:none !important}
+  body.rp-printing #report{position:static;display:block;background:#fff;overflow:visible}
+  body.rp-printing .rp-actions,
+  body.rp-printing .rp-close,
+  body.rp-printing .rp-switch{display:none !important}
+  body.rp-printing .rp-wrap{max-width:none;padding:0}
+  body.rp-printing .rp-bar .col{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.rp-printing .rp-cell{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
 @media print{
   body{background:#fff}
   .toolbar,.hero-right,.foot .no-print,.sync-badge,.overlay,.fab,#toast{display:none}
@@ -722,6 +779,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
         <span><i style="background:#ff9500"></i>课程</span>
         <span><i style="background:#af52de"></i>周末专项</span>
       </div>
+      <button class="btn" id="btnReport" type="button">报告</button>
       <button class="btn" id="btnRemind" type="button">提醒设置</button>
       <button class="btn" id="btnAdd" type="button">＋ 添加条目</button>
       <button class="btn" id="btnPrint">打印</button>
@@ -792,7 +850,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
         ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
       </div>
     </details>
-    <div class="ver-line">版本 <b id="verBadge">v2.7.6</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
+    <div class="ver-line">版本 <b id="verBadge">v3.0.0</b> · 自定义 · 附件 · 提醒已云端同步（v3.0.0）</div>
   </div>
 </div>
 
@@ -936,6 +994,29 @@ html.theme-auto .cell:active{ background:var(--surface) }
   </div>
 </div>
 
+<div class="report" id="report" role="dialog" aria-modal="true" aria-label="打卡报告">
+  <div class="rp-wrap">
+    <header class="rp-head">
+      <div>
+        <div class="rp-eyebrow" id="rpEyebrow">学期回顾 · REVIEW</div>
+        <h2 class="rp-title" id="rpTitle">2026-10 ~ 2027-06</h2>
+      </div>
+      <button class="rp-close" id="rpClose" type="button" aria-label="关闭">×</button>
+    </header>
+    <div class="rp-switch" id="rpSwitch"></div>
+    <div class="rp-hero" id="rpHero"></div>
+    <section class="rp-sec"><h3>逐月完成率</h3><div class="rp-bars" id="rpBars"></div></section>
+    <section class="rp-sec"><h3 id="rpHeatTitle">当月完成热力图</h3><div class="rp-heat" id="rpHeat"></div></section>
+    <section class="rp-sec"><h3>任务类型分布</h3><div class="rp-marks" id="rpMarks"></div></section>
+    <section class="rp-sec"><h3>最近 8 周趋势</h3><div class="rp-bars rp-bars-sm" id="rpWeeks"></div></section>
+    <div class="rp-actions">
+      <button class="bind-main" id="rpCsv" type="button">导出 CSV 明细</button>
+      <button class="bind-skip" id="rpPrint" type="button">打印 / 存为 PDF</button>
+      <button class="bind-skip" id="rpClose2" type="button">关闭</button>
+    </div>
+  </div>
+</div>
+
 <script src="workbuddy-cloud-sdk.js"></script>
 <script>
 (function(){
@@ -1031,12 +1112,14 @@ var WEEKEND = [
 var DOW_NAME = ['周日','周一','周二','周三','周四','周五','周六'];
 
 /* ---------- build month ---------- */
-function rebuildMonthData(){
-  days = [];
-  for (var d = 1; d <= DAYS_IN; d++) {
-    var date = new Date(Y, MO, d);
+/* 纯模板构建：不依赖全局（Y/MO/DAYS_IN），本月视图与跨月统计共用同一套任务规则 */
+function buildDayTemplates(y, mo, daysIn){
+  function dk(d){ return y + '-' + pad(mo + 1) + '-' + pad(d); }
+  var out = [];
+  for (var d = 1; d <= daysIn; d++) {
+    var date = new Date(y, mo, d);
     var dow = date.getDay();
-    var key = dkey(d);
+    var key = dk(d);
     var list = [];
 
     if (CLASS[dow]) {
@@ -1063,15 +1146,20 @@ function rebuildMonthData(){
     var satDay = d - ((dow + 1) % 7);
     var sunDay = d + ((7 - dow) % 7);
     var weekendHere = (dow === 6) || (dow === 0 && satDay < 1);
-    if (weekendHere && sunDay >= 1 && sunDay <= DAYS_IN) {
-      var wkey = dkey(sunDay);
+    if (weekendHere && sunDay >= 1 && sunDay <= daysIn) {
+      var wkey = dk(sunDay);
       WEEKEND.forEach(function(t){
         list.push({id: 'W' + wkey + '|' + t.k, label: t.label, type:'weekend'});
       });
     }
 
-    days.push({d:d, dow:dow, key:key, tasks:list});
+    out.push({d:d, dow:dow, key:key, tasks:list});
   }
+  return out;
+}
+
+function rebuildMonthData(){
+  days = buildDayTemplates(Y, MO, DAYS_IN);
 
   dayMap = {};
   days.forEach(function(x){ dayMap[x.key] = x; });
@@ -1083,9 +1171,9 @@ function rebuildMonthData(){
   ALL_SET = new Set(DEF_IDS);
 }
 
-/* ---------- 用户自定义层（仅本机持久化；云同步只同步勾选状态） ---------- */
+/* ---------- 用户自定义层（v3.0.0 起随云同步，不再是「仅本机」） ---------- */
 function loadEnt(){
-  var def = { deleted:{}, edited:{}, att:{}, custom:[] };
+  var def = { deleted:{}, edited:{}, att:{}, custom:[], removedCustom:[], attMeta:{}, rev:0 };
   try {
     var raw = localStorage.getItem(ENT_KEY);
     if (raw) {
@@ -1094,7 +1182,10 @@ function loadEnt(){
         deleted: o.deleted || {},
         edited:  o.edited  || {},
         att:     o.att     || {},
-        custom:  Array.isArray(o.custom) ? o.custom : []
+        custom:  Array.isArray(o.custom) ? o.custom : [],
+        removedCustom: Array.isArray(o.removedCustom) ? o.removedCustom : [],
+        attMeta: o.attMeta || {},
+        rev: o.rev || 0
       };
     }
   } catch(e){}
@@ -1180,6 +1271,7 @@ function loadDone(){
 }
 function save(){
   try { localStorage.setItem(STORE, JSON.stringify(Array.from(done))); } catch(e){}
+  invalidateFacts();          // 勾选变了，统计缓存作废
 }
 function isOn(id){ return done.has(id); }
 
@@ -1699,6 +1791,247 @@ function syncStats(){
   ringTxt.textContent = Math.round(rate * 100) + '%';
 }
 
+/* ================== v3.0.0 回顾统计 ==================
+   口径（全站统一，不随视图变化）：
+   - 完成率 = 已完成任务数 ÷ 当月任务总数（总数由模型实时计算��不写死）
+   - 全勤 = 当日任务全部完成的天数
+   - 连续打卡 = 连续「全部完成」天数；今天未完成则从昨天回溯（当天还没结束，不算断）
+   - 类型分布 = 按角标 考/课/作/复/补/无 统计任务条数
+   - 公式活页本按星期固定出现，与月视图计数一致 */
+var _mfCache = null;
+
+function entForMonth(mk){
+  var o = null;
+  try { o = JSON.parse(localStorage.getItem('checkin:' + mk + ':entries:v1') || 'null'); } catch(e){}
+  return o || { deleted:{}, edited:{}, att:{}, custom:[] };
+}
+function doneForMonth(mk){
+  var arr = [];
+  try { arr = JSON.parse(localStorage.getItem('checkin:' + mk + ':done:v1') || '[]'); } catch(e){}
+  return new Set(Array.isArray(arr) ? arr : []);
+}
+function baseForDay(day, ent){
+  var arr = [];
+  day.tasks.forEach(function(t){
+    if (ent.deleted && ent.deleted[t.k]) return;
+    var e = ent.edited && ent.edited[t.k];
+    arr.push({ id:t.id, k:t.k, label:(e && e.label != null) ? e.label : t.label,
+               type:t.type, mark:(e && e.mark) ? e.mark : '' });
+  });
+  (ent.custom || []).forEach(function(c){
+    if (c.date === day.key) arr.push({ id:c.id, k:null, label:c.label, type:c.type || 'custom', mark:c.mark || '' });
+  });
+  return arr;
+}
+function monthFacts(mk){
+  var m = null;
+  MONTHS.forEach(function(x){ if (x.key === mk) m = x; });
+  if (!m) return null;
+  function typeLabel(tp){
+    if (tp === 'class') return '课程';
+    if (tp === 'weekend') return '周末专项';
+    if (tp === 'focus') return '专项任务';
+    if (tp === 'custom') return '自定义';
+    return '每日任务';
+  }
+  var daysIn = new Date(m.y, m.m + 1, 0).getDate();
+  var tpl = buildDayTemplates(m.y, m.m, daysIn);
+  var ent = entForMonth(mk), doneSet = doneForMonth(mk);
+  var out = { key:mk, label:m.label, y:m.y, mo:m.m, days:[], total:0, done:0, full:0, marks:{} };
+  tpl.forEach(function(day){
+    var base = baseForDay(day, ent);
+    var n = base.filter(function(t){ return doneSet.has(t.id); }).length;
+    out.days.push({ key:day.key, d:day.d, total:base.length, done:n });
+    out.total += base.length;
+    out.done  += n;
+    if (base.length && n === base.length) out.full++;
+    base.forEach(function(t){ var k = t.mark || typeLabel(t.type); out.marks[k] = (out.marks[k] || 0) + 1; });
+  });
+  out.rate = out.total ? out.done / out.total : 0;
+  return out;
+}
+function allFacts(){
+  if (_mfCache) return _mfCache;
+  var o = {};
+  MONTHS.forEach(function(m){ o[m.key] = monthFacts(m.key); });
+  _mfCache = o;
+  return o;
+}
+function invalidateFacts(){ _mfCache = null; }
+
+function factsMap(){
+  var f = allFacts(), map = {};
+  Object.keys(f).forEach(function(k){ (f[k].days || []).forEach(function(d){ map[d.key] = d; }); });
+  return map;
+}
+function dstr(dt){ return dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate()); }
+function streakNow(map){
+  var cur = new Date(TODAY + 'T00:00:00');
+  var t = map[dstr(cur)];
+  if (!(t && t.total > 0 && t.done === t.total)) cur.setDate(cur.getDate() - 1);
+  var n = 0, guard = 0;
+  while (guard++ < 400) {
+    var d = map[dstr(cur)];
+    if (!d || !d.total || d.done !== d.total) break;
+    n++; cur.setDate(cur.getDate() - 1);
+  }
+  return n;
+}
+function streakBest(map){
+  var keys = Object.keys(map).sort(), best = 0, run = 0;
+  keys.forEach(function(k){
+    var d = map[k];
+    if (d.total && d.done === d.total) { run++; if (run > best) best = run; } else run = 0;
+  });
+  return best;
+}
+function weekTrend(map){
+  var t = new Date(TODAY + 'T00:00:00');
+  var dow = (t.getDay() + 6) % 7;
+  var end = new Date(t); end.setDate(end.getDate() + (6 - dow));
+  var out = [];
+  for (var w = 7; w >= 0; w--) {
+    var e = new Date(end); e.setDate(e.getDate() - w * 7);
+    var s = new Date(e); s.setDate(s.getDate() - 6);
+    var tot = 0, dn = 0;
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(s); d.setDate(d.getDate() + i);
+      var f = map[dstr(d)];
+      if (f && f.total) { tot += f.total; dn += f.done; }
+    }
+    out.push({ label: (s.getMonth() + 1) + '/' + s.getDate(), total: tot, done: dn, rate: tot ? dn / tot : null });
+  }
+  return out;
+}
+
+var rpScope = 'term';
+var report = document.getElementById('report');
+function openReport(){
+  rpScope = 'term';
+  renderReport();
+  report.classList.add('on');
+}
+function closeReport(){ report.classList.remove('on'); }
+
+function renderReport(){
+  var f = allFacts();
+  var map = factsMap();
+  var termTotal = 0, termDone = 0, termFull = 0, termMarks = {};
+  Object.keys(f).forEach(function(k){
+    termTotal += f[k].total; termDone += f[k].done; termFull += f[k].full;
+    Object.keys(f[k].marks).forEach(function(mk){ termMarks[mk] = (termMarks[mk] || 0) + f[k].marks[mk]; });
+  });
+  var cur = (rpScope === 'term') ? null : f[rpScope];
+  var scopeTotal = cur ? cur.total : termTotal;
+  var scopeDone  = cur ? cur.done  : termDone;
+  var scopeFull  = cur ? cur.full  : termFull;
+  var scopeMarks = cur ? cur.marks : termMarks;
+  var rate = scopeTotal ? scopeDone / scopeTotal : 0;
+
+  document.getElementById('rpTitle').textContent =
+    cur ? cur.label + ' · 月度报告' : MONTHS[0].label + ' ~ ' + MONTHS[MONTHS.length - 1].label;
+  document.getElementById('rpEyebrow').textContent = cur ? '月度回顾 · MONTHLY' : '学期回顾 · REVIEW';
+
+  // 顶部四个数字
+  document.getElementById('rpHero').innerHTML =
+      rpCard('完成率', Math.round(rate * 100), '%')
+    + rpCard('已完成', scopeDone, '/ ' + scopeTotal)
+    + rpCard('全勤天数', scopeFull, '天')
+    + rpCard('连续打卡', streakNow(map), '天');
+
+  // 月份切换 chip
+  var chips = '<button type="button" class="rp-chip' + (rpScope === 'term' ? ' on' : '') + '" data-scope="term">本学期</button>';
+  MONTHS.forEach(function(m){
+    chips += '<button type="button" class="rp-chip' + (rpScope === m.key ? ' on' : '') + '" data-scope="' + m.key + '">' + (m.m + 1) + '月</button>';
+  });
+  document.getElementById('rpSwitch').innerHTML = chips;
+
+  // 逐月柱状
+  var bars = '';
+  MONTHS.forEach(function(m){
+    var x = f[m.key];
+    var p = x.total ? Math.round(x.rate * 100) : 0;
+    bars += '<div class="rp-bar"><div class="bv">' + (x.total ? p + '%' : '—') + '</div>'
+          + '<div class="col' + (x.total ? '' : ' empty') + '" style="height:' + Math.max(3, p) + '%"></div>'
+          + '<div class="bl">' + (m.m + 1) + '月</div></div>';
+  });
+  document.getElementById('rpBars').innerHTML = bars;
+
+  // 热力图（当月）
+  var hm = cur || f[MONTHS[0].key];
+  document.getElementById('rpHeatTitle').textContent = hm.label + ' · 完成热力图';
+  var first = new Date(hm.y, hm.mo, 1).getDay();
+  var lead = (first + 6) % 7;
+  var heat = '';
+  for (var i = 0; i < lead; i++) heat += '<div class="rp-cell blank"></div>';
+  hm.days.forEach(function(d){
+    var p = d.total ? d.done / d.total : 0;
+    var lv = !d.total ? '' : (p >= 1 ? 'l4' : p >= 0.76 ? 'l3' : p >= 0.51 ? 'l2' : p > 0 ? 'l1' : '');
+    heat += '<div class="rp-cell ' + lv + '">' + d.d + '</div>';
+  });
+  document.getElementById('rpHeat').innerHTML = heat;
+
+  // 类型分布（角标优先，没角标按任务类型归类）
+  var names = { '考':'考试', '课':'课程', '作':'作业', '复':'复习', '补':'补课',
+                '每日任务':'每日', '专项任务':'专项', '周末专项':'周末',
+                '课程':'上课', '自定义':'自定义' };
+  var order = ['考','课','作','复','补','每日任务','专项任务','周末专项','课程','自定义'];
+  var mkHtml = '';
+  order.forEach(function(k){
+    if (!scopeMarks[k]) return;
+    mkHtml += '<div class="rp-mark"><b>' + scopeMarks[k] + '</b>' + (names[k] || k) + '任务</div>';
+  });
+  document.getElementById('rpMarks').innerHTML = mkHtml || '<div class="rp-mark">暂无数据</div>';
+
+  // 最近 8 周
+  var wk = weekTrend(map), wh = '';
+  wk.forEach(function(w){
+    var p = w.rate == null ? 0 : Math.round(w.rate * 100);
+    wh += '<div class="rp-bar"><div class="bv">' + (w.rate == null ? '—' : p + '%') + '</div>'
+        + '<div class="col' + (w.rate == null ? ' empty' : '') + '" style="height:' + Math.max(3, p) + '%"></div>'
+        + '<div class="bl">' + w.label + '</div></div>';
+  });
+  document.getElementById('rpWeeks').innerHTML = wh;
+}
+function rpCard(label, val, unit){
+  return '<div class="rp-k"><div class="kl">' + label + '</div>'
+       + '<div class="kv">' + val + '<small>' + unit + '</small></div></div>';
+}
+
+/* CSV 明细导出（UTF-8 BOM，Excel 直接打开不乱码） */
+function exportCsv(){
+  var rows = [['日期','任务','角标','是否完成','当日完成率']];
+  MONTHS.forEach(function(m){
+    var fact = allFacts()[m.key];
+    var ent = entForMonth(m.key), doneSet = doneForMonth(m.key);
+    var tpl = buildDayTemplates(m.y, m.m, new Date(m.y, m.m + 1, 0).getDate());
+    tpl.forEach(function(day){
+      var base = baseForDay(day, ent);
+      var n = base.filter(function(t){ return doneSet.has(t.id); }).length;
+      var pct = base.length ? Math.round(n / base.length * 100) + '%' : '';
+      base.forEach(function(t){
+        rows.push([day.key, t.label, t.mark || '', doneSet.has(t.id) ? '是' : '否', pct]);
+      });
+    });
+  });
+  var csv = rows.map(function(r){
+    return r.map(function(c){
+      var s = String(c == null ? '' : c);
+      return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    }).join(',');
+  }).join('\r\n');
+  var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '学习打卡表-' + MONTHS[0].key + '_' + MONTHS[MONTHS.length - 1].key + '-明细.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  showToast('CSV 已导出');
+}
+
 /* ---------- 数字滚动（数据可视化微交互） ---------- */
 var _numAnim = {};
 function setNum(el, val){
@@ -1743,6 +2076,7 @@ if (_phClose) _phClose.addEventListener('click', closePanel);
 document.addEventListener('keydown', function(e){
   if (e.key !== 'Escape') return;
   if (imgView.classList.contains('on')) return;                 // 图片预览由自己的监听处理
+  if (report.classList.contains('on')) { closeReport(); return; }
   if (editOverlay.style.display !== 'none') { closeEdit(); return; }
   if (remindOverlay.style.display !== 'none') { closeRemind(); return; }
   closePanel();
@@ -1994,6 +2328,235 @@ function schedulePull(delay){
   pullTimer = setTimeout(pull, delay || 20000);
 }
 
+/* ================== v3.0.0 数据主权：自定义层 / 提醒上云 ==================
+   云端：checkin_profile(code, entries jsonb, reminder jsonb, rev) + merge_profile()
+   entries 按月分片（键如 2026-11），每片含 deleted / edited / custom / removedCustom / attMeta。
+   服务端合并语义（行锁内完成）：墓碑并集（删除优先）、edited 补丁覆盖、custom 按 id 合并、
+   removedCustom 并集；reminder 整体以「最近修改」为准（个人设置，冲突概率极低）。
+   只加不删：checkin_state.done 与 merge_checkin 原样保留，v2.7.x 客户端继续可用。 */
+var dirtyMonths = {};        // 待推月份
+var profTimer = null;
+var profInFlight = false;
+var profRev = 0;
+var dirtyReminder = false;
+
+function entStorageKey(mk){ return 'checkin:' + mk + ':entries:v1'; }
+
+function sliceEmpty(s){
+  return !Object.keys(s.deleted || {}).length &&
+         !Object.keys(s.edited  || {}).length &&
+         !(s.custom || []).length &&
+         !(s.removedCustom || []).length;
+}
+
+function entSliceOf(mk){
+  var o = null;
+  try { o = JSON.parse(localStorage.getItem(entStorageKey(mk)) || 'null'); } catch(e){}
+  o = o || {};
+  return {
+    deleted: o.deleted || {},
+    edited:  o.edited  || {},
+    custom:  Array.isArray(o.custom) ? o.custom : [],
+    removedCustom: Array.isArray(o.removedCustom) ? o.removedCustom : [],
+    attMeta: o.attMeta || {}
+  };
+}
+
+function markProfileDirty(mk){
+  dirtyMonths[mk || curM.key] = 1;
+  scheduleProfilePush();
+}
+
+function scheduleProfilePush(){
+  if (!cloudCode || !cloud) return;
+  if (profTimer) clearTimeout(profTimer);
+  profTimer = setTimeout(profilePush, 900);
+}
+
+function profilePush(){
+  profTimer = null;
+  if (!cloudCode || !cloud || profInFlight) return;
+  var months = Object.keys(dirtyMonths);
+  if (!months.length) return;
+  var patch = {};
+  months.forEach(function(mk){ patch[mk] = entSliceOf(mk); });
+  var payload = { p_code: cloudCode, p_entries: patch };
+  if (dirtyReminder) payload.p_reminder = loadReminder();
+  var sending = months.slice();
+  dirtyMonths = {};
+  profInFlight = true;
+  function requeue(){ sending.forEach(function(mk){ dirtyMonths[mk] = 1; }); }
+  cloud.database.rpc('merge_profile', payload)
+    .then(function(res){
+      profInFlight = false;
+      if (res && res.error) { requeue(); return; }          // 失败不清本地，等下次
+      if (!res || !res.data) { requeue(); return; }
+      dirtyReminder = false;
+      applyProfile(res.data);
+    })
+    .catch(function(){ profInFlight = false; requeue(); });
+}
+
+/* 把云端 profile 落到本机。本地有未推改动的月份跳过，避免把用户刚做的改动覆盖掉。 */
+function applyProfile(data){
+  if (!data) return;
+  var ents = data.entries || {};
+  var touched = false;
+  Object.keys(ents).forEach(function(mk){
+    if (dirtyMonths[mk]) return;
+    var s = ents[mk] || {};
+    var old = null;
+    try { old = JSON.parse(localStorage.getItem(entStorageKey(mk)) || 'null'); } catch(e){}
+    var oldAtt = (old && old.att) ? old.att : {};
+    var keep = {};
+    var custom = Array.isArray(s.custom) ? s.custom : [];
+    var alive = {};
+    custom.forEach(function(c){ alive[c.id] = 1; });
+    Object.keys(oldAtt).forEach(function(k){
+      if (k.indexOf('|') > 0 || alive[k]) keep[k] = oldAtt[k];   // 默认任务附件 + 仍存在的自定义条目附件
+    });
+    var out = {
+      deleted: s.deleted || {},
+      edited:  s.edited  || {},
+      att:     keep,
+      custom:  custom,
+      removedCustom: Array.isArray(s.removedCustom) ? s.removedCustom : [],
+      attMeta: s.attMeta || {},
+      rev: s.rev || 0
+    };
+    try { localStorage.setItem(entStorageKey(mk), JSON.stringify(out)); touched = true; } catch(e){}
+  });
+  if (data.reminder && data.reminder.rules && !dirtyReminder) {
+    saveReminder(data.reminder);
+    scheduleReminder();
+    touched = true;
+  }
+  if (data.rev) profRev = data.rev;
+  if (touched) { ENT = loadEnt(); rebuildBase(); applyFmRolling(); refreshAll(); }
+  fetchMissingAtt();          // 云端有、本机没有的附件，按需拉回
+  backfillAtt();              // 本机有、云端没有的老附件，补传
+}
+
+/* ================== v3.0.0 附件上云 ==================
+   图片在本地已压到长边 1280 / JPEG 0.82（resizeImage）；这里把压缩结果随条目一起上云：
+   - 本地 att 保留 data（即时显示，离线可用）
+   - checkin_attachment 表存一份（主键 code + att_id），换设备按需拉回
+   - entries 切片里的 attMeta 只放元信息（attId / 名称 / 类型），用来判断「云端有、本机没有」 */
+function attUid(){ return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+function syncAttMeta(entryId){
+  ENT.attMeta = ENT.attMeta || {};
+  var arr = ENT.att[entryId] || [];
+  if (!arr.length) { delete ENT.attMeta[entryId]; return; }
+  ENT.attMeta[entryId] = arr.map(function(a){ return { attId: a.attId, name: a.name, type: a.type }; });
+}
+
+function attPut(row){
+  if (!cloudCode || !cloud) return;
+  cloud.database.from('checkin_attachment').insert(row).then(function(res){
+    if (res && res.error && res.error.code === '23505') {          // 已存在：覆盖内容
+      cloud.database.from('checkin_attachment')
+        .update({ data: row.data, bytes: row.bytes, name: row.name, mime: row.mime })
+        .eq('code', row.code).eq('att_id', row.att_id)
+        .then(function(){}).catch(function(){});
+    }
+  }).catch(function(){});
+}
+
+function uploadAttachment(entryId, a){
+  if (!a || !a.attId || !a.data) return;
+  attPut({
+    code: cloudCode, att_id: a.attId, month: curM.key, entry_id: entryId,
+    name: a.name || '', mime: a.type || '', bytes: a.data.length, data: a.data
+  });
+  a.up = 1;
+}
+
+function deleteAttachment(attId){
+  if (!cloudCode || !cloud || !attId) return;
+  cloud.database.from('checkin_attachment').delete()
+    .eq('code', cloudCode).eq('att_id', attId)
+    .then(function(){}).catch(function(){});
+}
+
+/* 老数据补传：本机已有附件但没有 attId/未上传的，补一个 id 并传上去 */
+function backfillAtt(){
+  if (!cloudCode || !cloud) return;
+  var changed = false;
+  Object.keys(ENT.att || {}).forEach(function(entryId){
+    (ENT.att[entryId] || []).forEach(function(a){
+      if (!a.attId) { a.attId = attUid(); changed = true; }
+      if (!a.up) { uploadAttachment(entryId, a); changed = true; }
+    });
+    syncAttMeta(entryId);
+  });
+  if (changed) saveEnt();
+}
+
+/* 云端有元信息、本机没有本体 → 按需拉回（每批 6 个，避免拖慢首屏） */
+var attFetching = false;
+function fetchMissingAtt(){
+  if (!cloudCode || !cloud || attFetching) return;
+  var missing = [];
+  Object.keys(ENT.attMeta || {}).forEach(function(entryId){
+    var local = ENT.att[entryId] || [];
+    (ENT.attMeta[entryId] || []).forEach(function(meta){
+      if (!meta || !meta.attId) return;
+      var has = local.some(function(x){ return x.attId === meta.attId; });
+      if (!has) missing.push({ entryId: entryId, meta: meta });
+    });
+  });
+  if (!missing.length) return;
+  attFetching = true;
+  var batch = missing.slice(0, 6);
+  batch.forEach(function(item){
+    cloud.database.from('checkin_attachment').select('data,name,mime')
+      .eq('code', cloudCode).eq('att_id', item.meta.attId).maybeSingle()
+      .then(function(res){
+        if (!res || res.error || !res.data || !res.data.data) return;
+        if (!ENT.att[item.entryId]) ENT.att[item.entryId] = [];
+        ENT.att[item.entryId].push({
+          attId: item.meta.attId,
+          name: res.data.name || item.meta.name || '',
+          type: res.data.mime || item.meta.type || '',
+          data: res.data.data,
+          up: 1
+        });
+        try { localStorage.setItem(ENT_KEY, JSON.stringify(ENT)); } catch(e){}
+        refreshAll();
+      })
+      .catch(function(){});
+  });
+  setTimeout(function(){
+    attFetching = false;
+    if (missing.length > batch.length) fetchMissingAtt();
+  }, 1200);
+}
+
+function profilePull(){
+  if (!cloudCode || !cloud) return;
+  cloud.database.from('checkin_profile').select('entries,reminder,rev').eq('code', cloudCode).maybeSingle()
+    .then(function(res){
+      if (!res || res.error) return;
+      if (!res.data) { migrateProfileUp(); return; }
+      applyProfile(res.data);
+    })
+    .catch(function(){});
+}
+
+/* 首次上云：把本机已有的自定义层/提醒整体推上去（只推有内容的月份） */
+function migrateProfileUp(){
+  var flag = 'checkin.profile.migrated.v1';
+  try { if (localStorage.getItem(flag) === '1') return; } catch(e){}
+  var n = 0;
+  MONTHS.forEach(function(m){
+    if (!sliceEmpty(entSliceOf(m.key))) { dirtyMonths[m.key] = 1; n++; }
+  });
+  dirtyReminder = true;
+  try { localStorage.setItem(flag, '1'); } catch(e){}
+  if (n || cloudCode) profilePush();
+}
+
 /* ---------- bind overlay ---------- */
 var codeShow = document.getElementById('codeShow');
 var codeShowVal = document.getElementById('codeShowVal');
@@ -2007,7 +2570,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.7.6';
+var VERSION = '3.0.0';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
@@ -2205,6 +2768,7 @@ function finishBind(code){
   setSyncStatus('on');
   pull();
   schedulePull();
+  profilePull();                 // v3.0.0：换设备后把自定义层/提醒也拉回来
 }
 
 /* 把打卡码写进地址栏（保留 sharecode）：换标签页、清缓存、装到另一台设备打开同一链接都能自动恢复绑定 */
@@ -2252,6 +2816,8 @@ function bindCode(code){
   setSyncStatus('on');
   push();
   schedulePull();
+  dirtyReminder = true;
+  profilePull();                 // 已有档案则拉取，没有就把本机自定义层上传
 }
 
 /* 注：v2.7.6 起不再有「拉取失败即自动解绑」的逻辑（原 hardUnbind 已移除）。
@@ -2322,6 +2888,8 @@ document.getElementById('rmSave').addEventListener('click', function(){
     rules: rules
   };
   saveReminder(obj);
+  dirtyReminder = true;              // v3.0.0：提醒设置同步上云
+  scheduleProfilePush();
   if (anyEnabled || rmExamOn.checked) applyReminderPermission();
   closeRemind();
   scheduleReminder();
@@ -2334,7 +2902,10 @@ document.getElementById('rmAdd').addEventListener('click', function(){
 });
 
 document.addEventListener('visibilitychange', function(){
-  if (!document.hidden && cloudCode) { if (pendingAdd.length || pendingDel.length) push(); else pull(); }
+  if (!document.hidden && cloudCode) {
+    if (pendingAdd.length || pendingDel.length) push(); else pull();
+    profilePull();                       // 回到前台也把自定义层对齐一次
+  }
 });
 window.addEventListener('online', function(){
   if (cloudCode) { if (pendingAdd.length || pendingDel.length) push(); else pull(); }
@@ -2367,6 +2938,8 @@ function buildDateOptions(){
 function saveEnt(){
   try { localStorage.setItem(ENT_KEY, JSON.stringify(ENT)); }
   catch(e){ showToast('本地存储空间不足，附件可能未保存'); }
+  markProfileDirty(curM.key);      // v3.0.0：自定义层变更同步上云
+  invalidateFacts();               // 条目变了，统计缓存作废
 }
 
 function openEdit(id){
@@ -2438,10 +3011,15 @@ function editDelete(){
   if (editMode === 'add') { closeEdit(); return; }
   if (editMode === 'edit-custom') {
     ENT.custom = ENT.custom.filter(function(x){ return x.id !== editId; });
+    // 墓碑：另一台设备若还留着这条，合并时会被这里的删除带走
+    ENT.removedCustom = ENT.removedCustom || [];
+    if (ENT.removedCustom.indexOf(editId) < 0) ENT.removedCustom.push(editId);
   } else {
     ENT.deleted[editId] = true;
   }
+  (ENT.att[editId] || []).forEach(function(a){ deleteAttachment(a && a.attId); });
   delete ENT.att[editId];
+  if (ENT.attMeta) delete ENT.attMeta[editId];
   saveEnt();
   rebuildBase();
   applyFmRolling();
@@ -2505,13 +3083,32 @@ function handleFiles(files, id){
 
 function pushAtt(id, att){
   if (!ENT.att[id]) ENT.att[id] = [];
+  att.attId = att.attId || attUid();
   ENT.att[id].push(att);
+  syncAttMeta(id);              // 元信息进 profile，随自定义层同步
   saveEnt();
+  uploadAttachment(id, att);    // 本体进 checkin_attachment（失败下次补传）
   renderEditAtt(id);
   refreshAll();
 }
 
 document.getElementById('btnAdd').addEventListener('click', function(){ openAdd(selected); });
+/* 报告 / 统计（v3.0.0） */
+document.getElementById('btnReport').addEventListener('click', openReport);
+document.getElementById('rpClose').addEventListener('click', closeReport);
+document.getElementById('rpClose2').addEventListener('click', closeReport);
+document.getElementById('rpCsv').addEventListener('click', exportCsv);
+document.getElementById('rpPrint').addEventListener('click', function(){
+  document.body.classList.add('rp-printing');
+  window.print();
+  setTimeout(function(){ document.body.classList.remove('rp-printing'); }, 800);
+});
+document.getElementById('rpSwitch').addEventListener('click', function(e){
+  var b = e.target.closest('.rp-chip');
+  if (!b) return;
+  rpScope = b.getAttribute('data-scope');
+  renderReport();
+});
 document.getElementById('btnAddDay').addEventListener('click', function(){ openAdd(selected); });
 document.getElementById('editSave').addEventListener('click', editSave);
 document.getElementById('editDelete').addEventListener('click', editDelete);
@@ -2522,8 +3119,11 @@ editAttList.addEventListener('click', function(e){
   if (!rm || !editId) return;
   var i = parseInt(rm.getAttribute('data-rm'), 10);
   if (ENT.att[editId] && ENT.att[editId][i]) {
+    var gone = ENT.att[editId][i];
+    deleteAttachment(gone && gone.attId);          // 云端一并删掉
     ENT.att[editId].splice(i, 1);
     if (!ENT.att[editId].length) delete ENT.att[editId];
+    syncAttMeta(editId);
     saveEnt();
     renderEditAtt(editId);
     refreshAll();
@@ -2626,7 +3226,7 @@ if (isLocal) {
   setSyncStatus('local');                 // 离线单文件：仅本机，不显示云服务告警
 } else if (cloudCode) {
   rememberCodeInUrl(cloudCode);           // 本地已有码：写回地址栏，换标签页/清缓存后可自动恢复
-  if (cloud) { setSyncStatus('on'); pull(); schedulePull(); }   // 进站即拉一次，失败自动重试且不清码
+  if (cloud) { setSyncStatus('on'); pull(); schedulePull(); profilePull(); }   // 进站即拉一次（勾选 + 自定义层），失败自动重试且不清码
   else { setSyncStatus('nocloud'); }      // 已绑定但 SDK 未加载：本机进度已保存，刷新后重试
 } else {
   setSyncStatus('none');                  // 未绑定：提示「点击同步」，不误报云服务不可用
