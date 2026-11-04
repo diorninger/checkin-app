@@ -708,6 +708,54 @@ button,.btn,.seg button,.cell,.task,.ph-add,.att-img,.rm-add,.rm-rule-del,
 /* 深色模式：弹窗 / 表单入场与 iOS 一致；进度环描边沿用 done 色 */
 html.theme-auto .bind,html.theme-auto .remind,html.theme-auto .edit{ color:var(--ink) }
 html.theme-auto .cell:active{ background:var(--surface) }
+/* v3.2.0 打卡小生物 / 家长盖章 */
+.pet-bar{position:relative;display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-card);padding:8px 14px 8px 8px;margin:0 0 14px}
+.pet{flex:none;display:flex;align-items:center;gap:8px;background:transparent;border:0;padding:0;cursor:pointer;color:var(--ink);font:inherit}
+.pet-svg{width:48px;height:48px;display:block}
+.pet-name{font-size:12px;white-space:nowrap;color:var(--ink-2)}
+.pet-face{fill:#E1F5EE;stroke:#1D9E75;stroke-width:1.2}
+.pet-ear{fill:#9FE1CB;stroke:#1D9E75;stroke-width:1}
+.pet-eye{fill:#04342C}
+.pet-shut{stroke:#04342C;stroke-width:1.4;fill:none;stroke-linecap:round}
+.pet-blush{fill:#F5C4B3}
+.pet-mouth{stroke:#04342C;stroke-width:1.4;fill:none;stroke-linecap:round}
+.pet-tail{stroke:#1D9E75;stroke-width:2.4;fill:none;stroke-linecap:round}
+.pet-flower,.pet-crown,.pet-zzz,.pet-eyes-shut{display:none}
+.pet.flower .pet-flower{display:block}
+.pet.crown .pet-crown{display:block}
+.pet.sleep .pet-zzz{display:block}
+.pet.sleep .pet-eyes-shut{display:block}
+.pet.sleep .pet-eyes-open{display:none}
+.pet-bar-txt{flex:1;min-width:0;font-size:13px;color:var(--ink-2);line-height:1.5}
+.pet-bar-txt b{font-size:16px;color:var(--ink)}
+.pet-more{flex:none;border:0;background:transparent;color:var(--accent);font-size:12.5px;cursor:pointer;padding:6px 2px}
+.pet-pop{position:absolute;top:calc(100% + 6px);right:10px;z-index:60;width:230px;background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;box-shadow:var(--shadow-lg);padding:14px;display:none}
+.pet-pop.on{display:block}
+.pet-pop h4{margin:0 0 8px;font-size:14px;font-weight:600}
+.pet-pop p{margin:0 0 6px;font-size:12px;color:var(--ink-2);line-height:1.6}
+.pet-pop .pet-k{color:var(--ink-3)}
+.stamp-mini{display:block;width:18px;height:18px}
+.stamp-mini svg{width:100%;height:100%;display:block}
+.stamp-row{display:flex;align-items:center;gap:10px;padding:10px 12px;margin:0 0 14px;background:var(--surface-2);border-radius:12px}
+.stamp-row .stamp-mini{width:34px;height:34px;flex:0 0 34px}
+.stamp-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.stamp-txt b{font-size:13px}
+.stamp-txt span{font-size:11.5px;color:var(--ink-3)}
+.stamp-btn{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:999px;font-size:12.5px;padding:7px 14px;cursor:pointer;white-space:nowrap}
+.stamp-btn:disabled{background:transparent;color:var(--ink-2);border-color:var(--line);cursor:not-allowed}
+.stamp-ok{font-size:12px;color:var(--done);white-space:nowrap}
+.cell-stamp{position:absolute;right:4px;bottom:4px;width:17px;height:17px;z-index:2}
+.rp-stamps{display:flex;flex-wrap:wrap;gap:7px}
+.rp-stamp{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:9px;padding:5px 8px}
+.rp-empty{font-size:12px;color:var(--ink-3)}
+@media (max-width:720px){
+  .pet-bar{padding:6px 10px 6px 6px;gap:8px;margin-bottom:10px}
+  .pet-svg{width:40px;height:40px}
+  .pet-name{font-size:11px}
+  .pet-bar-txt{font-size:12px}
+  .cell-stamp{width:13px;height:13px;right:2px;bottom:2px}
+}
+@media print{ .pet-bar,.pet-pop,.stamp-btn{display:none !important} }
 </style>
 </head>
 <body>
@@ -752,6 +800,34 @@ html.theme-auto .cell:active{ background:var(--surface) }
       </div>
     </div>
   </header>
+
+  <div class="pet-bar" id="petBar">
+    <button class="pet" id="pet" type="button" aria-expanded="false" title="查看成长记录">
+      <svg class="pet-svg" viewBox="0 0 96 96" aria-hidden="true">
+        <g class="pet-crown"><path d="M32 20 36 10 44 17 48 7 52 17 60 10 64 20z" fill="#FAC775" stroke="#BA7517" stroke-width="1.2" stroke-linejoin="round"/></g>
+        <g class="pet-flower">
+          <circle cx="48" cy="13" r="5" fill="#F4C0D1"/><circle cx="55" cy="19" r="4" fill="#FAC775"/><circle cx="41" cy="19" r="4" fill="#B5D4F4"/><circle cx="48" cy="20" r="3.4" fill="#FFFFFF"/>
+        </g>
+        <path class="pet-ear" d="M28 34 24 18l16 9zM68 34l4-16-16 9z"/>
+        <path class="pet-tail" d="M70 68q10 2 9-9"/>
+        <circle class="pet-face" cx="48" cy="52" r="24"/>
+        <g class="pet-eyes-open"><ellipse class="pet-eye" cx="40" cy="49" rx="2.6" ry="3.4"/><ellipse class="pet-eye" cx="56" cy="49" rx="2.6" ry="3.4"/></g>
+        <g class="pet-eyes-shut"><path class="pet-shut" d="M36 49q4 4 8 0M52 49q4 4 8 0"/></g>
+        <circle class="pet-blush" cx="33" cy="56" r="3.4"/><circle class="pet-blush" cx="63" cy="56" r="3.4"/>
+        <path class="pet-mouth" d="M44 58q4 4 8 0"/>
+        <g class="pet-zzz"><text x="74" y="27" font-size="13" fill="#8E8E93">z</text><text x="82" y="18" font-size="10" fill="#8E8E93">z</text></g>
+      </svg>
+      <span class="pet-name">圆叶猫</span>
+    </button>
+    <div class="pet-bar-txt">连续打卡 <b id="petStreak">0</b> 天 · <span id="petState">打盹中</span></div>
+    <button class="pet-more" id="petMore" type="button">成长记录 ›</button>
+    <div class="pet-pop" id="petPop">
+      <h4>圆叶猫的成长记录</h4>
+      <p id="petPopLine1">当前连续 0 天</p>
+      <p id="petPopLine2">本月最长连续 0 天</p>
+      <p class="pet-k">断签不会清零，它只是打个盹；重新连上就醒。</p>
+    </div>
+  </div>
 
   <div class="stats">
     <div class="stat"><div class="stat-k">已完成任务</div><div class="stat-v"><span id="sDone">0</span><small>/ <span id="sTotal">0</span></small></div></div>
@@ -850,7 +926,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
         ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
       </div>
     </details>
-    <div class="ver-line">版本 <b id="verBadge">v3.0.1</b> · 自定义 · 附件 · 提醒已云端同步（v3.0.1）</div>
+    <div class="ver-line">版本 <b id="verBadge">v3.2.0</b> · 自定义 · 附件 · 提醒已云端同步（v3.2.0）</div>
   </div>
 </div>
 
@@ -1009,6 +1085,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
     <section class="rp-sec"><h3 id="rpHeatTitle">当月完成热力图</h3><div class="rp-heat" id="rpHeat"></div></section>
     <section class="rp-sec"><h3>任务类型分布</h3><div class="rp-marks" id="rpMarks"></div></section>
     <section class="rp-sec"><h3>最近 8 周趋势</h3><div class="rp-bars rp-bars-sm" id="rpWeeks"></div></section>
+    <section class="rp-sec"><h3 id="rpStampTitle">家长盖章</h3><div class="rp-stamps" id="rpStamps"></div></section>
     <div class="rp-actions">
       <button class="bind-main" id="rpCsv" type="button">导出 CSV 明细</button>
       <button class="bind-skip" id="rpPrint" type="button">打印 / 存为 PDF</button>
@@ -1439,12 +1516,14 @@ function renderCal(){
     var badges = '';
     marks.forEach(function(m){ badges += '<span class="cls-badge ' + (m === '考' ? 'exam' : (m === '课' ? '' : 'mark')) + '">' + escapeAttr(m) + '</span>'; });
     if (hasAtt) badges += '<span class="cls-badge cam">📷</span>';
+    var stamped = hasStamp(day.key);
     html += '<button type="button" class="' + cellCls(day) + '" data-key="' + day.key + '">'
          +  '<span class="cell-top"><span class="dnum">' + dnum + '</span>'
          +  (badges ? '<span class="cell-badges">' + badges + '</span>' : '')
          +  '</span>'
          +  '<span class="cell-bar"><i style="width:' + pct + '%"></i></span>'
          +  '<span class="cell-n">' + n + '/' + tot + '</span>'
+         +  (stamped ? '<span class="cell-stamp" aria-label="已盖章">' + stampSvg() + '</span>' : '')
          +  '</button>';
   }
   calGrid.innerHTML = html;
@@ -1537,15 +1616,24 @@ function renderPanel(){
     {type:'custom',  title:'自定义条目', cls:''}
   ];
 
-  var html = '';
+  var stamped = hasStamp(day.key);
+  var canStamp = isDayComplete(day.key);
+  var stampHint = stamped ? '家长已为这一天盖章' : (canStamp ? '全部完成，可以盖一枚章' : '当天任务全部完成后可盖章');
+  var html = '<div class="stamp-row">'
+           + stampMini()
+           + '<div class="stamp-txt"><b>家长盖章</b><span>' + stampHint + '</span></div>'
+           + (stamped ? '<span class="stamp-ok">已盖章</span>'
+                      : '<button class="stamp-btn" type="button" data-stamp="1"' + (canStamp ? '' : ' disabled') + '>盖一枚</button>')
+           + '</div>';
+  var body = '';
   groups.forEach(function(g){
     var arr = day.tasks.filter(function(t){ return t.type === g.type; });
     if (!arr.length) return;
-    html += '<div class="grp"><div class="grp-title ' + g.cls + '"><i></i>' + g.title + '</div>';
-    arr.forEach(function(t){ html += taskHTML(t); });
-    html += '</div>';
+    body += '<div class="grp"><div class="grp-title ' + g.cls + '"><i></i>' + g.title + '</div>';
+    arr.forEach(function(t){ body += taskHTML(t); });
+    body += '</div>';
   });
-  panelBody.innerHTML = html || '<div class="empty">这一天没有任务</div>';
+  panelBody.innerHTML = html + (body || '<div class="empty">这一天没有任务</div>');
 }
 
 /* ---------- 图片预览（点击日期面板/清单里的图片） ---------- */
@@ -1628,6 +1716,80 @@ function toggleTask(id){
   if (!wasOn) maybeCelebrate(dateOfId(id));   // 只有"勾上"才可能触发完成特效
 }
 
+/* ================== v3.2.0 打卡小生物 / 家长盖章 ==================
+   小生物：状态完全由 streakNow(factsMap()) 派生，不新增存储、不上云。
+   盖章：以 dateKey + '|__stamp__' 作为伪 id 存进 done，复用既有 merge_checkin
+   原子合并（只增不删），跨设备可见；不新建表、不改服务端函数、不区分身份。 */
+var STAMP_SUFFIX = '|__stamp__';
+function stampId(key){ return key + STAMP_SUFFIX; }
+function hasStamp(key){ return done.has(stampId(key)); }
+function stampsForMonth(mk){
+  var out = [];
+  doneForMonth(mk).forEach(function(id){
+    var s = String(id);
+    if (s.slice(-STAMP_SUFFIX.length) === STAMP_SUFFIX) out.push(s.slice(0, 10));
+  });
+  return out.sort();
+}
+function stampSvg(){
+  return '<svg viewBox="0 0 48 48" aria-hidden="true">'
+    + '<circle cx="24" cy="9" r="5.2" fill="#F4C0D1"/><circle cx="34.6" cy="13.4" r="5.2" fill="#FAC775"/>'
+    + '<circle cx="39" cy="24" r="5.2" fill="#9FE1CB"/><circle cx="34.6" cy="34.6" r="5.2" fill="#B5D4F4"/>'
+    + '<circle cx="24" cy="39" r="5.2" fill="#CECBF6"/><circle cx="13.4" cy="34.6" r="5.2" fill="#F4C0D1"/>'
+    + '<circle cx="9" cy="24" r="5.2" fill="#C0DD97"/><circle cx="13.4" cy="13.4" r="5.2" fill="#B5D4F4"/>'
+    + '<circle cx="24" cy="24" r="10" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.6"/>'
+    + '<path d="M19.5 24l3.3 3.3 6.2-6.8" fill="none" stroke="#1D9E75" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '</svg>';
+}
+function stampMini(){ return '<span class="stamp-mini" aria-hidden="true">' + stampSvg() + '</span>'; }
+function doStamp(key){
+  if (!key || hasStamp(key)) return;
+  var sid = stampId(key);
+  done.add(sid);
+  save();
+  if (cloudCode && cloud) { pendingAdd.push(sid); schedulePush(); }
+  refreshAll();
+}
+function petStage(n){
+  if (n >= 14) return {cls:'crown', text:'戴上小皇冠'};
+  if (n >= 7)  return {cls:'flower', text:'开花啦'};
+  if (n >= 3)  return {cls:'', text:'站起来了'};
+  if (n >= 1)  return {cls:'', text:'醒啦'};
+  return {cls:'sleep', text:'打盹中'};
+}
+function monthBestStreak(mk){
+  var f = monthFacts(mk), best = 0, run = 0;
+  (f ? f.days : []).forEach(function(d){
+    if (d.total && d.done === d.total) { run++; if (run > best) best = run; } else run = 0;
+  });
+  return best;
+}
+function renderPet(){
+  var n = 0;
+  try { n = streakNow(factsMap()); } catch(e){ n = 0; }
+  var st = petStage(n);
+  document.getElementById('pet').className = 'pet' + (st.cls ? ' ' + st.cls : '');
+  document.getElementById('petStreak').textContent = n;
+  document.getElementById('petState').textContent = st.text;
+  document.getElementById('petPopLine1').textContent = '当前连续 ' + n + ' 天 · ' + st.text;
+  document.getElementById('petPopLine2').textContent = '本月最长连续 ' + monthBestStreak(curM.key) + ' 天';
+}
+var petPop = document.getElementById('petPop');
+function togglePetPop(){
+  var on = petPop.classList.toggle('on');
+  document.getElementById('pet').setAttribute('aria-expanded', on ? 'true' : 'false');
+}
+document.getElementById('pet').addEventListener('click', togglePetPop);
+document.getElementById('petMore').addEventListener('click', togglePetPop);
+document.addEventListener('click', function(e){
+  if (e.target && e.target.closest && !e.target.closest('#petBar')) petPop.classList.remove('on');
+});
+panelBody.addEventListener('click', function(e){
+  var b = e.target.closest('.stamp-btn');
+  if (!b || b.disabled) return;
+  doStamp(selected);
+});
+
 function refreshAll(){
   applyFmRolling();
   renderCal();
@@ -1635,6 +1797,7 @@ function refreshAll(){
   if (listWrap.style.display !== 'none') renderList();
   syncStats();
   syncSb();
+  renderPet();
 }
 
 function onTaskClick(e){
@@ -1992,6 +2155,20 @@ function renderReport(){
         + '<div class="bl">' + w.label + '</div></div>';
   });
   document.getElementById('rpWeeks').innerHTML = wh;
+
+  // 家长盖章（本学期 / 当月）
+  var sm = [];
+  if (cur) sm = stampsForMonth(rpScope);
+  else MONTHS.forEach(function(m){ sm = sm.concat(stampsForMonth(m.key)); });
+  sm.sort();
+  document.getElementById('rpStampTitle').textContent =
+    (cur ? cur.label : '本学期') + ' · 家长盖章（' + sm.length + ' 枚）';
+  document.getElementById('rpStamps').innerHTML = sm.length
+    ? sm.map(function(k){
+        var p = k.split('-');
+        return '<div class="rp-stamp">' + stampMini() + parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日</div>';
+      }).join('')
+    : '<span class="rp-empty">还没有盖章。当天任务全部完成后，可在日期面板里盖一枚。</span>';
 }
 function rpCard(label, val, unit){
   return '<div class="rp-k"><div class="kl">' + label + '</div>'
@@ -2266,6 +2443,13 @@ function applyServer(serverDone){
   ALL_SET.forEach(function(id){
     var want = next.has(id), has = done.has(id);
     if (want !== has) { if (want) done.add(id); else done.delete(id); changed = true; }
+  });
+  // v3.2.0：家长的章是 done 里的伪 id（只增不删），只收当前月的
+  next.forEach(function(id){
+    var s = String(id);
+    if (s.slice(-STAMP_SUFFIX.length) !== STAMP_SUFFIX) return;
+    if (s.slice(0, 7) !== curM.key) return;
+    if (!done.has(s)) { done.add(s); changed = true; }
   });
   if (changed) { save(); refreshAll(); }
 }
@@ -2570,7 +2754,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '3.0.1';
+var VERSION = '3.2.0';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
@@ -3197,6 +3381,7 @@ renderSbMonths();    // 构建 macOS 侧边栏月份列表
 renderCal();
 renderPanel();
 syncStats();
+renderPet();
 pulseGrid();
 
 // 默认进入日历视图（全部清单需手动切换）
