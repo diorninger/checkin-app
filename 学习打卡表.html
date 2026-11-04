@@ -93,7 +93,8 @@
   html.theme-auto .sync-badge:hover{border-color:var(--line);color:var(--ink)}
   html.theme-auto .bind-main{background:var(--accent);color:#fff}
   html.theme-auto .bind-go{color:#fff}
-  html.theme-auto .bind-skip{color:var(--ink-2)}
+  html.theme-auto .bind-skip{color:var(--ink);background:var(--surface);border-color:var(--line)}
+  html.theme-auto .bind-skip.danger{color:var(--exam);border-color:rgba(255,59,48,.45)}
   html.theme-auto .att-drop:hover{border-color:var(--accent);color:var(--ink-2)}
   html.theme-auto .att-img{background:var(--surface-2)}
   html.theme-auto .imgview img{background:var(--surface-2)}
@@ -404,8 +405,20 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
 .cs-label{font-size:12px;color:var(--ink-2);margin-bottom:8px}
 .cs-row{display:flex;align-items:center;gap:10px}
 .cs-val{font-size:20px;font-weight:700;letter-spacing:.18em;font-family:inherit;color:var(--ink);font-variant-numeric:tabular-nums}
-.bind-skip{display:block;width:100%;margin-top:6px;padding:8px;font-size:12.5px;color:var(--ink-3);
-  text-decoration:underline;text-underline-offset:3px}
+/* 次级操作按钮：描边胶囊，字号/对比度足够，不再是灰色小字 */
+.bind-skip{display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;min-height:44px;margin-top:10px;padding:10px 14px;border-radius:10px;
+  border:1px solid var(--line);background:var(--surface);
+  font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;
+  transition:.15s;-webkit-tap-highlight-color:transparent}
+.bind-skip:hover{border-color:var(--accent);color:var(--accent)}
+.bind-skip:active{transform:scale(.98);opacity:.85}
+.bind-skip.danger{color:var(--exam);border-color:rgba(255,59,48,.38)}
+.bind-skip.danger:hover{background:var(--exam-soft);border-color:var(--exam);color:var(--exam)}
+/* 编辑弹层：保存独占一行，删除/关闭等宽并排（.rm-actions.edit-actions 提高优先级以覆盖 .rm-actions .bind-skip） */
+.edit-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:stretch}
+.edit-actions .bind-main{flex:1 0 100%;margin:0}
+.rm-actions.edit-actions .bind-skip{flex:1 1 0;width:auto;min-width:0;margin:0}
 .bind-note{margin-top:14px;padding:11px 13px;border-radius:9px;background:var(--surface-2);
   font-size:12px;color:var(--ink-2);line-height:1.7}
 .ver-line{margin-top:12px;font-size:11.5px;color:var(--ink-3)}
@@ -437,7 +450,7 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
   background:var(--surface);padding:5px 10px;border-radius:8px;border:1px solid var(--line-soft);cursor:pointer}
 .rm-daybox input{accent-color:var(--done)}
 .rm-actions{display:flex;gap:12px;align-items:center;margin-top:18px}
-.rm-actions .bind-skip{margin-top:0}
+.rm-actions .bind-skip{margin-top:0;width:auto;flex:0 0 auto;min-width:92px}
 .switch{position:relative;display:inline-block;width:46px;height:26px;flex:none}
 .switch input{opacity:0;width:0;height:0}
 .switch .slider{position:absolute;inset:0;background:#d8d2c6;border-radius:99px;transition:.2s;cursor:pointer}
@@ -898,9 +911,9 @@ html.theme-auto .cell:active{ background:var(--surface) }
     <div class="att-list" id="editAttList"></div>
 
     <div class="bind-err" id="editErr"></div>
-    <div class="rm-actions">
+    <div class="rm-actions edit-actions">
       <button class="bind-main" id="editSave" type="button">保存</button>
-      <button class="bind-skip" id="editDelete" type="button">删除此条目</button>
+      <button class="bind-skip danger" id="editDelete" type="button">删除此条目</button>
       <button class="bind-skip" id="editClose" type="button">关闭</button>
     </div>
     <div class="bind-note">自定义、改名、删除与附件均只保存在本机；打卡码云同步仅同步勾选状态，不会上传附件或条目定义。</div>
