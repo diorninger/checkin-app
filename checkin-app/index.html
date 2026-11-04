@@ -792,7 +792,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
         ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
       </div>
     </details>
-    <div class="ver-line">版本 <b id="verBadge">v2.7.5</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
+    <div class="ver-line">版本 <b id="verBadge">v2.7.6</b> · 自定义 / 附件仅本机 · 提醒可在「提醒设置」中自行调节</div>
   </div>
 </div>
 
@@ -1870,6 +1870,7 @@ if (tbToggle) {
 var SYNC_CODE_KEY = 'checkin-cloud-code';
 var CODE_RE_LOCAL = /^[A-Z2-9]{6}$/;
 var cloudCode = '';
+var bindMiss = 0;                        // 连续「云端取不到该码」次数：多为冷启动/抖动，不能据此清本地码
 try { cloudCode = localStorage.getItem(SYNC_CODE_KEY) || ''; } catch (e) { cloudCode = ''; }
 var pendingAdd = [];
 var pendingDel = [];
@@ -1906,10 +1907,22 @@ var bindErr = document.getElementById('bindErr');
 function setSyncStatus(s){
   if (s === 'on')      { syncDot.style.background = 'var(--done)'; syncTxt.textContent = '已同步 ' + cloudCode; }
   else if (s === 'off'){ syncDot.style.background = '#c0564f';     syncTxt.textContent = '同步离线，稍后重试'; }
+  else if (s === 'warn'){ syncDot.style.background = '#d9a300';    syncTxt.textContent = '正在重连 ' + cloudCode; }
+  else if (s === 'miss'){ syncDot.style.background = '#d9a300';    syncTxt.textContent = '打卡码 ' + cloudCode + ' 暂未取到 · 点击可换码'; }
   else if (s === 'nocloud'){ syncDot.style.background = '#c0564f'; syncTxt.textContent = '云服务暂不可用 · 本机进度已保存'; }
   else if (s === 'local'){ syncDot.style.background = '#c2b8a8'; syncTxt.textContent = '本地模式 · 仅本机'; }
   else                 { syncDot.style.background = '#c2b8a8';     syncTxt.textContent = '未绑定 · 点击同步'; }
 }
+
+/* 云端一时取不到该码：绝不因此清掉本地绑定（v2.7.6）。
+   部署后沙箱冷启动、切网、断网都会让第一次查询返回空，旧逻辑会 hardUnbind 把码删掉，用户就得重输。 */
+function noteMiss(){
+  bindMiss++;
+  if (bindMiss <= 2) { setSyncStatus('off'); schedulePull(4000 * bindMiss); return; }   // 4s / 8s 快速重试
+  if (bindMiss < 5)  { setSyncStatus('warn'); schedulePull(15000); return; }             // 15s 退避
+  setSyncStatus('miss'); schedulePull(60000);                                          // 持续失败：保留码，慢速重试
+}
+function noteHit(){ bindMiss = 0; }
 
 function applyServer(serverDone){
   var next = new Set(serverDone);
@@ -1942,7 +1955,8 @@ function push(){
     .then(function(res){
       inFlight--;
       if (res.error) { requeuePush(a, r); return; }
-      if (!res.data) { hardUnbind('打卡码在云端不存在，可能已被重置'); return; }
+      if (!res.data) { requeuePush(a, r); noteMiss(); return; }
+      noteHit();
       applyServer(Object.keys(res.data));
       setSyncStatus('on');
       schedulePull(15000);
@@ -1967,7 +1981,8 @@ function pull(){
     .then(function(res){
       inFlight--;
       if (res.error) { setSyncStatus('off'); schedulePull(8000); return; }
-      if (!res.data) { hardUnbind('打卡码在云端不存在，可能已被重置'); return; }
+      if (!res.data) { noteMiss(); return; }
+      noteHit();
       applyServer(Object.keys(res.data.done || {}));
       setSyncStatus('on');
     })
@@ -1992,7 +2007,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '2.7.5';
+var VERSION = '2.7.6';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
@@ -2185,10 +2200,21 @@ function applyReminderPermission(){
 function finishBind(code){
   cloudCode = code;
   try { localStorage.setItem(SYNC_CODE_KEY, code); } catch (e) {}
+  rememberCodeInUrl(code);
   hideOverlay();
   setSyncStatus('on');
   pull();
   schedulePull();
+}
+
+/* 把打卡码写进地址栏（保留 sharecode）：换标签页、清缓存、装到另一台设备打开同一链接都能自动恢复绑定 */
+function rememberCodeInUrl(code){
+  try {
+    var u = new URL(location.href);
+    if (u.searchParams.get('code') === code) return;
+    u.searchParams.set('code', code);
+    history.replaceState(null, '', u.toString());
+  } catch (e) {}
 }
 
 function createCodeNow(attempt){
@@ -2218,6 +2244,7 @@ function bindCode(code){
   }
   cloudCode = code;
   try { localStorage.setItem(SYNC_CODE_KEY, code); } catch (e) {}
+  rememberCodeInUrl(code);
   // 本机已有进度导入云端（去重；若码不存在，push 会提示并解绑）
   done.forEach(function(id){ pendingAdd.push(id); });
   pendingAdd = Array.from(new Set(pendingAdd));
@@ -2227,13 +2254,8 @@ function bindCode(code){
   schedulePull();
 }
 
-function hardUnbind(reason){
-  cloudCode = '';
-  try { localStorage.removeItem(SYNC_CODE_KEY); } catch (e) {}
-  setSyncStatus('none');
-  showOverlay();
-  bindErr.textContent = reason || '';
-}
+/* 注：v2.7.6 起不再有「拉取失败即自动解绑」的逻辑（原 hardUnbind 已移除）。
+   只有用户主动在同步面板换码/新建码时才会覆盖本地打卡码。 */
 
 document.getElementById('syncBadge').addEventListener('click', showOverlay);
 document.getElementById('btnCopyCode').addEventListener('click', function(){
@@ -2591,10 +2613,19 @@ setView('cal');
 
 // 云同步初始化
 var isLocal = (typeof LOCAL_MODE !== 'undefined' && LOCAL_MODE);
+// 地址栏带 ?code=XXXXXX 而本地没存（换标签页 / 清过缓存 / 装了另一台设备）：自动恢复绑定，不再要求手输
+if (!isLocal && !cloudCode) {
+  var urlCode = '';
+  try { urlCode = (new URL(location.href).searchParams.get('code') || '').toUpperCase(); } catch (e) { urlCode = ''; }
+  if (CODE_RE_LOCAL.test(urlCode)) {
+    cloudCode = urlCode;
+    try { localStorage.setItem(SYNC_CODE_KEY, urlCode); } catch (e) {}
+  }
+}
 if (isLocal) {
   setSyncStatus('local');                 // 离线单文件：仅本机，不显示云服务告警
 } else if (cloudCode) {
-  if (cloud) { setSyncStatus('on'); schedulePull(); }
+  if (cloud) { setSyncStatus('on'); pull(); schedulePull(); }   // 进站即拉一次，失败自动重试且不清码
   else { setSyncStatus('nocloud'); }      // 已绑定但 SDK 未加载：本机进度已保存，刷新后重试
 } else {
   setSyncStatus('none');                  // 未绑定：提示「点击同步」，不误报云服务不可用
