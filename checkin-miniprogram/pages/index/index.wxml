@@ -1,0 +1,239 @@
+<view class="page {{themeClass}}">
+  <!-- 顶部：月份 + 视图切换 -->
+  <view class="topbar">
+    <picker mode="selector" range="{{monthLabels}}" value="{{mi}}" bindchange="onMonthChange">
+      <view class="month-btn">
+        <text class="month-txt">{{monthLabel}}</text>
+        <text class="chev">▾</text>
+      </view>
+    </picker>
+    <view class="seg">
+      <view class="seg-i {{view === 'cal' ? 'on' : ''}}" data-v="cal" bindtap="setView">日历</view>
+      <view class="seg-i {{view === 'list' ? 'on' : ''}}" data-v="list" bindtap="setView">清单</view>
+      <view class="seg-i {{view === 'stats' ? 'on' : ''}}" data-v="stats" bindtap="setView">进度</view>
+    </view>
+    <view class="gear" bindtap="goSettings">···</view>
+  </view>
+
+  <!-- 总览 -->
+  <view class="hero">
+    <view class="hero-left">
+      <view class="eyebrow">{{monthLabel}} · CHECK-IN</view>
+      <view class="hero-num">
+        <text class="num-big">{{stat.done}}</text>
+        <text class="num-total">/ {{stat.total}}</text>
+      </view>
+      <view class="hero-meta">全勤 {{stat.fullDays}} 天 · 还剩 {{stat.leftDays}} 天</view>
+    </view>
+    <view class="ring" style="--deg:{{ringDeg}}deg">
+      <view class="ring-in">
+        <text class="ring-num">{{stat.rate}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="banner" wx:if="{{banner}}">
+    <text class="banner-ico">🔔</text>
+    <text class="banner-txt">{{banner}}</text>
+  </view>
+
+  <!-- 日历视图 -->
+  <view class="card cal-wrap" wx:if="{{view === 'cal'}}">
+    <view class="dow-row">
+      <view class="dow" wx:for="{{dowLabels}}" wx:key="*this">{{item}}</view>
+    </view>
+    <view class="grid">
+      <view
+        wx:for="{{cells}}"
+        wx:key="idx"
+        class="cell {{item.cls}}"
+        style="height:{{cellH}}rpx"
+        data-key="{{item.key}}"
+        data-ym="{{item.ym}}"
+        bindtap="onCellTap"
+      >
+        <view class="c-top">
+          <text class="c-d">{{item.d}}</text>
+          <view class="c-badges" wx:if="{{item.marks.length}}">
+            <text wx:for="{{item.marks}}" wx:for-item="mk" wx:key="t" class="badge {{mk.c}}">{{mk.t}}</text>
+          </view>
+        </view>
+        <block wx:if="{{!item.out}}">
+          <view class="c-bar"><view class="c-fill" style="width:{{item.pct}}%"></view></view>
+          <text class="c-n">{{item.n}}/{{item.tot}}</text>
+        </block>
+        <text class="c-nav" wx:if="{{item.nav}}">{{item.side}}</text>
+      </view>
+    </view>
+    <view class="cal-foot">点日期查看 / 勾选任务 · 灰色日期点击可切换月份</view>
+  </view>
+
+  <!-- 清单视图 -->
+  <view wx:if="{{view === 'list'}}">
+    <view class="card day-card" wx:for="{{listDays}}" wx:key="key">
+      <view class="day-h {{item.full ? 'full' : ''}}">
+        <text class="dh-d">{{item.d}}日</text>
+        <text class="dh-w">{{item.dowName}}</text>
+        <text class="dh-cls" wx:if="{{item.clsTag}}">{{item.clsTag}}</text>
+        <text class="dh-n">{{item.done}}/{{item.total}}</text>
+      </view>
+      <view
+        class="task {{t.on ? 'on' : ''}} {{t.type === 'class' ? 'cls' : ''}}"
+        wx:for="{{item.tasks}}"
+        wx:for-item="t"
+        wx:key="id"
+        data-id="{{t.id}}"
+        bindtap="onToggle"
+      >
+        <view class="tick"></view>
+        <view class="t-main">
+          <view class="t-label">
+            <text class="t-mark {{t.mark === '考' ? 'exam' : ''}}" wx:if="{{t.mark}}">{{t.mark}}</text>
+            <text>{{t.label}}</text>
+          </view>
+          <view class="t-sub" wx:if="{{t.time || t.attCount}}">
+            <text class="t-time" wx:if="{{t.time}}">{{t.time}}</text>
+            <text class="t-att" wx:if="{{t.attCount}}">📷 {{t.attCount}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 进度视图 -->
+  <view wx:if="{{view === 'stats'}}">
+    <view class="card stats-card">
+      <view class="sc-head">
+        <text class="sc-title">{{monthLabel}}完成度</text>
+        <text class="sc-rate">{{stat.rate}}%</text>
+      </view>
+      <view class="sc-bar"><view class="sc-fill" style="width:{{stat.rate}}%"></view></view>
+      <view class="sc-grid">
+        <view class="sc-i"><text class="sc-n">{{stat.done}}</text><text class="sc-l">已完成</text></view>
+        <view class="sc-i"><text class="sc-n">{{stat.total}}</text><text class="sc-l">总任务</text></view>
+        <view class="sc-i"><text class="sc-n">{{stat.fullDays}}</text><text class="sc-l">全勤天数</text></view>
+        <view class="sc-i"><text class="sc-n">{{stat.leftDays}}</text><text class="sc-l">待完成天</text></view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="sec-title">分类完成情况</view>
+      <view class="cat" wx:for="{{cats}}" wx:key="key">
+        <view class="cat-h">
+          <text class="cat-l">{{item.label}}</text>
+          <text class="cat-n">{{item.done}}/{{item.total}}</text>
+        </view>
+        <view class="cat-bar"><view class="cat-fill" style="width:{{item.pct}}%"></view></view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="sec-title">每日进度</view>
+      <view class="wp" wx:for="{{weekRows}}" wx:key="label">
+        <text class="wp-l">{{item.label}}</text>
+        <view class="wp-bar"><view class="wp-fill" style="width:{{item.pct}}%"></view></view>
+        <text class="wp-n">{{item.pct}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="foot">
+    <text>每日一题 / 口算每天做；基础作业全联周日、学而思周六；公式活页本每周各一次。</text>
+    <text>版本 v{{version}} · 数据保存在本机</text>
+  </view>
+
+  <!-- 日任务面板 -->
+  <view class="scrim {{panelOpen ? 'on' : ''}}" bindtap="closePanel" catchtouchmove="noop"></view>
+  <view class="sheet {{panelOpen ? 'on' : ''}}">
+    <view class="grab"></view>
+    <view class="sheet-h">
+      <view class="sh-left">
+        <text class="sh-d">{{selLabel}}</text>
+        <text class="sh-w">{{selDow}}</text>
+      </view>
+      <view class="sh-right">
+        <text class="sh-n">{{selDone}}/{{selTotal}}</text>
+        <text class="sh-x" bindtap="closePanel">✕</text>
+      </view>
+    </view>
+    <scroll-view class="sheet-body" scroll-y>
+      <view
+        class="task {{t.on ? 'on' : ''}} {{t.type === 'class' ? 'cls' : ''}}"
+        wx:for="{{selTasks}}"
+        wx:key="id"
+        data-id="{{t.id}}"
+        bindtap="onToggle"
+      >
+        <view class="tick"></view>
+        <view class="t-main">
+          <view class="t-label">
+            <text class="t-mark {{t.mark === '考' ? 'exam' : ''}}" wx:if="{{t.mark}}">{{t.mark}}</text>
+            <text>{{t.label}}</text>
+          </view>
+          <view class="t-sub" wx:if="{{t.time || t.attCount}}">
+            <text class="t-time" wx:if="{{t.time}}">{{t.time}}</text>
+            <text class="t-att" wx:if="{{t.attCount}}">📷 {{t.attCount}}</text>
+          </view>
+        </view>
+        <view class="t-edit" catchtap="openEdit" data-id="{{t.id}}">✎</view>
+      </view>
+
+      <view class="sheet-empty" wx:if="{{!selTasks.length}}">这一天没有任务</view>
+
+      <view class="sheet-actions">
+        <view class="btn-ghost" bindtap="addCustom">+ 添加自定义任务</view>
+      </view>
+      <view class="sheet-pad"></view>
+    </scroll-view>
+  </view>
+
+  <!-- 编辑弹层 -->
+  <view class="scrim top {{editOpen ? 'on' : ''}}" bindtap="closeEdit" catchtouchmove="noop"></view>
+  <view class="edit {{editOpen ? 'on' : ''}}">
+    <view class="edit-h">
+      <text class="edit-t">{{edit.isCustom ? '编辑自定义任务' : '编辑任务（整类生效）'}}</text>
+      <text class="edit-x" bindtap="closeEdit">✕</text>
+    </view>
+    <view class="fld-row">
+      <text class="fld-l">名称</text>
+      <input class="fld" value="{{edit.label}}" bindinput="onEditLabel" placeholder="任务名称" placeholder-class="ph" />
+    </view>
+    <view class="fld-row">
+      <text class="fld-l">时间</text>
+      <input class="fld" value="{{edit.time}}" bindinput="onEditTime" placeholder="如 19:30（可留空）" placeholder-class="ph" />
+    </view>
+    <view class="fld-row col">
+      <text class="fld-l">角标</text>
+      <view class="marks">
+        <view
+          class="mark-chip {{edit.mark === item ? 'on' : ''}}"
+          wx:for="{{markOpts}}"
+          wx:key="*this"
+          data-m="{{item}}"
+          bindtap="pickMark"
+        >{{item === '' ? '无' : item}}</view>
+      </view>
+    </view>
+    <view class="fld-row col">
+      <text class="fld-l">图片</text>
+      <view class="atts">
+        <view class="att" wx:for="{{edit.atts}}" wx:key="path" data-path="{{item.path}}" bindtap="previewAtt">
+          <image class="att-img" src="{{item.path}}" mode="aspectFill"></image>
+        </view>
+        <view class="att-add" bindtap="chooseImage">＋</view>
+      </view>
+    </view>
+    <view class="edit-actions">
+      <view class="btn-del" bindtap="deleteTask">删除</view>
+      <view class="btn-save" bindtap="saveEdit">保存</view>
+    </view>
+  </view>
+
+  <!-- 完成特效 -->
+  <view class="fx {{celebrating ? 'on' : ''}}">
+    <view class="fx-card">
+      <text class="fx-ico">🎉</text>
+      <text class="fx-t">{{fxTitle}}</text>
+    </view>
+  </view>
+</view>

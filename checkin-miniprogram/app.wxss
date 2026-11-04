@@ -1,0 +1,23 @@
+page {
+  background: #f2f2f7;
+  color: #1c1c1e;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  page {
+    background: #000000;
+  }
+}
+
+view,
+text,
+input,
+scroll-view {
+  box-sizing: border-box;
+}
+
+button {
+  border-radius: 12rpx;
+}

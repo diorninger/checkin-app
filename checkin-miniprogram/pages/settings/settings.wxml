@@ -1,0 +1,68 @@
+<view class="page {{themeClass}}">
+  <view class="group-title">打卡提醒</view>
+  <view class="card">
+    <view class="row">
+      <view class="row-main">
+        <text class="label">开启每日提醒</text>
+        <text class="sub">打开 App 时若已过提醒时间且仍有未完成项，会提示一次</text>
+      </view>
+      <switch checked="{{rmOn}}" bindchange="onSwitch" color="#34c759" />
+    </view>
+
+    <view class="row">
+      <text class="label">提醒时间</text>
+      <picker mode="time" value="{{rmTime}}" bindchange="onTime">
+        <view class="pill">{{rmTime}}</view>
+      </picker>
+    </view>
+
+    <view class="block">
+      <text class="label">提醒日</text>
+      <view class="weeks">
+        <view class="wk {{w.on ? 'on' : ''}}" wx:for="{{weeks}}" wx:key="d" data-idx="{{index}}" bindtap="onWeek">{{w.l}}</view>
+      </view>
+    </view>
+
+    <view class="row">
+      <view class="row-main">
+        <text class="label">考试提醒</text>
+        <text class="sub">任务角标标为「考」且未完成时，在临近日期提示</text>
+      </view>
+      <switch checked="{{examOn}}" bindchange="onExamSwitch" color="#ff3b30" />
+    </view>
+
+    <view class="row">
+      <text class="label">提前天数</text>
+      <picker range="{{advOpts}}" value="{{examAdv}}" bindchange="onExamAdv">
+        <view class="pill">{{advOpts[examAdv]}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="group-title">外观</view>
+  <view class="card">
+    <view class="modes">
+      <view class="mode {{mode === item.v ? 'on' : ''}}" wx:for="{{modes}}" wx:key="v" data-m="{{item.v}}" bindtap="onMode">{{item.l}}</view>
+    </view>
+  </view>
+
+  <view class="group-title">数据</view>
+  <view class="card">
+    <view class="row" bindtap="resetMonth">
+      <view class="row-main">
+        <text class="label danger">重置「{{monthLabel}}」</text>
+        <text class="sub">清除本月全部勾选与自定义任务</text>
+      </view>
+      <text class="chev">›</text>
+    </view>
+  </view>
+
+  <view class="group-title">关于</view>
+  <view class="card about">
+    <text class="about-line">学习打卡表 · 小程序版 v{{version}}</text>
+    <text class="about-line">9 个月任务（2026-10 ~ 2027-06）本地计算；勾选、自定义任务与图片保存在本机，卸载或清缓存会重置。</text>
+    <text class="about-line">每日一题 / 口算每天做；基础作业全联周日、学而思周六；公式活页本每周各一次。</text>
+  </view>
+
+  <view class="pad"></view>
+</view>
