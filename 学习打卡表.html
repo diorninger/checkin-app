@@ -2625,6 +2625,7 @@ if (!isLocal && !cloudCode) {
 if (isLocal) {
   setSyncStatus('local');                 // 离线单文件：仅本机，不显示云服务告警
 } else if (cloudCode) {
+  rememberCodeInUrl(cloudCode);           // 本地已有码：写回地址栏，换标签页/清缓存后可自动恢复
   if (cloud) { setSyncStatus('on'); pull(); schedulePull(); }   // 进站即拉一次，失败自动重试且不清码
   else { setSyncStatus('nocloud'); }      // 已绑定但 SDK 未加载：本机进度已保存，刷新后重试
 } else {
