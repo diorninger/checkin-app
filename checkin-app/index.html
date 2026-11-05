@@ -255,6 +255,11 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
   display:flex;flex-direction:column;overflow:hidden;visibility:hidden}
 .panel.open{transform:translateX(0);visibility:visible;will-change:transform;
   transition:transform .3s cubic-bezier(.22,.61,.36,1),visibility 0s}
+/* 关闭瞬间内容即隐藏，只让纯色外壳滑出：避免文字拖到动画结束、掉帧时留残影 */
+/* 动画期间保留合成层，防止中途移除 will-change 触发层重建抖动 */
+.panel.closing{will-change:transform}
+.panel-head,.panel-body{opacity:0}
+.panel.open .panel-head,.panel.open .panel-body{opacity:1;transition:opacity .18s ease}
 .panel-head{padding:16px 14px 13px 18px;border-bottom:1px solid var(--line-soft);display:flex;
             align-items:center;justify-content:space-between;gap:10px;flex:none;
             padding-top:max(16px,env(safe-area-inset-top))}
@@ -383,7 +388,7 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
 .sync-badge i{width:8px;height:8px;border-radius:50%;background:#c2b8a8;flex:none;transition:background .3s}
 /* 弹层必须盖在日任务抽屉（#panel z-index:130）之上，否则从抽屉里点「＋添加」看不到弹窗 */
 .overlay{position:fixed;inset:0;z-index:150;background:rgba(29,37,48,.45);
-  display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)}
+  display:flex;align-items:center;justify-content:center;padding:20px}
 .bind{background:var(--surface);border-radius:16px;padding:26px 24px 22px;width:100%;max-width:380px;
   max-height:calc(100dvh - 40px);overflow-y:auto;-webkit-overflow-scrolling:touch;
   box-shadow:0 24px 60px -18px rgba(29,37,48,.4)}
@@ -2304,8 +2309,16 @@ var board = document.getElementById('board');
 var panelScrim = document.getElementById('panelScrim');
 
 /* 面板：默认隐藏，点击日期平滑滑入 */
-function openPanel(){ panel.classList.add('open'); panelScrim.classList.add('show'); }
+var closeTimer = null;
+function openPanel(){
+  if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+  panel.classList.remove('closing');
+  panel.classList.add('open');
+  panelScrim.classList.add('show');
+}
 function closePanel(){
+  if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+  panel.classList.add('closing');
   panel.classList.remove('open');
   panelScrim.classList.remove('show');
   /* 边缘手势可能留下内联 transform / opacity，内联优先级高于 class，
@@ -2314,6 +2327,7 @@ function closePanel(){
   panel.style.transition = '';
   panelScrim.style.opacity = '';
   panelScrim.style.transition = '';
+  closeTimer = setTimeout(function(){ panel.classList.remove('closing'); closeTimer = null; }, 320);
 }
 panelScrim.addEventListener('click', closePanel);
 var _phClose = document.getElementById('phClose');
