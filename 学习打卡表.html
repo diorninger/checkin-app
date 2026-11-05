@@ -234,6 +234,14 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
 @keyframes fxdraw{to{stroke-dashoffset:0}}
 @keyframes fxpulse{0%{box-shadow:0 0 0 0 rgba(127,214,168,.45)}70%{box-shadow:0 0 0 28px rgba(127,214,168,0)}100%{box-shadow:0 0 0 0 rgba(127,214,168,0)}}
 @keyframes fxfade{to{opacity:1}}
+.donefx-duo{display:none;gap:14px;align-items:center;justify-content:center;margin:0 auto 18px}
+.donefx.duo .donefx-duo{display:flex}
+.donefx.duo .donefx-ring{display:none}
+.donefx.duo::before{background:radial-gradient(circle at 50% 46%, rgba(167,139,224,.34), rgba(24,16,34,.58) 62%)}
+.donefx-duo .stamp-mini{width:64px;height:64px;filter:drop-shadow(0 8px 22px rgba(0,0,0,.35))}
+.donefx-duo .stamp-mini:first-child{animation:duoIn .5s cubic-bezier(.2,1.4,.4,1) both}
+.donefx-duo .stamp-mini:last-child{animation:duoIn .5s .12s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes duoIn{from{transform:scale(.4) rotate(-18deg);opacity:0}to{transform:none;opacity:1}}
 
 .cell-bar{height:3px;border-radius:2px;background:#e9e5dc;overflow:hidden;margin-top:auto}
 .cell-bar i{display:block;height:100%;background:var(--done);border-radius:2px;transition:width .3s}
@@ -735,26 +743,39 @@ html.theme-auto .cell:active{ background:var(--surface) }
 .pet-pop h4{margin:0 0 8px;font-size:14px;font-weight:600}
 .pet-pop p{margin:0 0 6px;font-size:12px;color:var(--ink-2);line-height:1.6}
 .pet-pop .pet-k{color:var(--ink-3)}
-.stamp-mini{display:block;width:18px;height:18px}
+.stamp-mini{display:block;width:18px;height:18px;flex:none}
 .stamp-mini svg{width:100%;height:100%;display:block}
-.stamp-row{display:flex;align-items:center;gap:10px;padding:10px 12px;margin:0 0 14px;background:var(--surface-2);border-radius:12px}
-.stamp-row .stamp-mini{width:34px;height:34px;flex:0 0 34px}
+.stamp-row{display:flex;flex-direction:column;padding:2px 12px;margin:0 0 14px;background:var(--surface-2);border-radius:12px}
+.stamp-line{display:flex;align-items:center;gap:10px;padding:9px 0;min-height:52px}
+.stamp-line + .stamp-line{border-top:1px solid var(--line-soft)}
+.stamp-line .stamp-mini{width:34px;height:34px;flex:0 0 34px}
 .stamp-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .stamp-txt b{font-size:13px}
 .stamp-txt span{font-size:11.5px;color:var(--ink-3)}
 .stamp-btn{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:999px;font-size:12.5px;padding:7px 14px;cursor:pointer;white-space:nowrap}
 .stamp-btn:disabled{background:transparent;color:var(--ink-2);border-color:var(--line);cursor:not-allowed}
 .stamp-ok{font-size:12px;color:var(--done);white-space:nowrap}
-.cell-stamp{position:absolute;right:4px;bottom:4px;width:17px;height:17px;z-index:2}
+.stamp-mini.drop{animation:stampDrop .52s cubic-bezier(.22,1.3,.36,1) both}
+@keyframes stampDrop{
+  0%{transform:translateY(-26px) scale(1.75) rotate(-14deg);opacity:0}
+  55%{transform:translateY(2px) scale(.9) rotate(3deg);opacity:1}
+  75%{transform:translateY(-2px) scale(1.06) rotate(-1deg)}
+  100%{transform:none;opacity:1}
+}
+.cell-stamps{position:absolute;right:4px;bottom:4px;display:flex;align-items:center;gap:1px;z-index:2}
+.cell-stamp{display:block;width:17px;height:17px;flex:none}
+.cell-stamp svg{width:100%;height:100%;display:block}
 .rp-stamps{display:flex;flex-wrap:wrap;gap:7px}
 .rp-stamp{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-2);background:var(--surface-2);border-radius:9px;padding:5px 8px}
+.rp-both{font-size:10.5px;color:var(--accent);white-space:nowrap}
 .rp-empty{font-size:12px;color:var(--ink-3)}
 @media (max-width:720px){
   .pet-bar{padding:6px 10px 6px 6px;gap:8px;margin-bottom:10px}
   .pet-svg{width:46px;height:46px}
   .pet-name{font-size:11px}
   .pet-bar-txt{font-size:12px}
-  .cell-stamp{width:13px;height:13px;right:2px;bottom:2px}
+  .cell-stamps{right:2px;bottom:2px}
+  .cell-stamp{width:14px;height:14px}
 }
 @media print{ .pet-bar,.pet-pop,.stamp-btn{display:none !important} }
 </style>
@@ -984,7 +1005,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
         ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
       </div>
     </details>
-    <div class="ver-line">版本 <b id="verBadge">v3.2.3</b> · 自定义 · 附件 · 提醒已云端同步（v3.2.3）</div>
+    <div class="ver-line">版本 <b id="verBadge">v3.3.0</b> · 自定义 · 附件 · 提醒已云端同步（v3.3.0）</div>
   </div>
 </div>
 
@@ -1123,6 +1144,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
     <div class="donefx-ring">
       <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 25.5l9.5 9.5L38 15"/></svg>
     </div>
+    <div class="donefx-duo" id="doneFxDuo"></div>
     <div class="donefx-t" id="doneFxT">今日全部完成！</div>
     <div class="donefx-s" id="doneFxS">满分表现，明天继续加油</div>
   </div>
@@ -1194,7 +1216,22 @@ var MONTHS = [
   { y:2027, m:5,  key:'2027-06', label:'2027年6月' }
 ];
 /* 默认进入包含今天的月份（init 时校正，这里先取第一个月） */
-var STAMP_SUFFIX = '|__stamp__';   // 家长盖章的伪 id 后缀（loadDone 也会用到，故提前定义）
+var STAMP_SUFFIX = '|__stamp__';      // 爸爸 · 花瓣章（v3.2.x 旧数据沿用此后缀）
+var STAMP_SUFFIX_M = '|__stamp_m__';  // 妈妈 · 丝带蝴蝶结章
+var STAMP_ROLES = [
+  {who:'d', name:'爸爸', suffix:STAMP_SUFFIX},
+  {who:'m', name:'妈妈', suffix:STAMP_SUFFIX_M}
+];
+function stampSuffix(s){
+  var t = String(s);
+  if (t.slice(-STAMP_SUFFIX_M.length) === STAMP_SUFFIX_M) return STAMP_SUFFIX_M;
+  if (t.slice(-STAMP_SUFFIX.length) === STAMP_SUFFIX) return STAMP_SUFFIX;
+  return null;
+}
+function stampWho(s){
+  var x = stampSuffix(s);
+  return x === STAMP_SUFFIX_M ? 'm' : (x === STAMP_SUFFIX ? 'd' : null);
+}
 var curM = MONTHS[0];
 var Y = curM.y, MO = curM.m, DAYS_IN = new Date(curM.y, curM.m + 1, 0).getDate();
 var STORE = 'checkin:' + curM.key + ':done:v1';
@@ -1407,7 +1444,7 @@ function loadDone(){
       if (VALID_SET.has(t)) { s.add(t); return; }
       // 家长的章是 dateKey + STAMP_SUFFIX 伪 id，不在任务 id 集合里；
       // 只放行当前月的章，否则刷新 / 切月后章会从界面上消失、还能重复盖。
-      if (t.slice(-STAMP_SUFFIX.length) === STAMP_SUFFIX && t.slice(0, 7) === mk) s.add(t);
+      if (stampSuffix(t) && t.slice(0, 7) === mk) s.add(t);
     }); }
   } catch(e){}
   return s;
@@ -1582,14 +1619,20 @@ function renderCal(){
     var badges = '';
     marks.forEach(function(m){ badges += '<span class="cls-badge ' + (m === '考' ? 'exam' : (m === '课' ? '' : 'mark')) + '">' + escapeAttr(m) + '</span>'; });
     if (hasAtt) badges += '<span class="cls-badge cam">📷</span>';
-    var stamped = hasStamp(day.key);
+    var sd = hasStamp(day.key, 'd'), sm = hasStamp(day.key, 'm');
+    var stamps = (sd || sm)
+      ? '<span class="cell-stamps" aria-label="家长盖章">'
+        + (sd ? '<span class="cell-stamp">' + stampSvg('d') + '</span>' : '')
+        + (sm ? '<span class="cell-stamp">' + stampSvg('m') + '</span>' : '')
+        + '</span>'
+      : '';
     html += '<button type="button" class="' + cellCls(day) + '" data-key="' + day.key + '">'
          +  '<span class="cell-top"><span class="dnum">' + dnum + '</span>'
          +  (badges ? '<span class="cell-badges">' + badges + '</span>' : '')
          +  '</span>'
          +  '<span class="cell-bar"><i style="width:' + pct + '%"></i></span>'
          +  '<span class="cell-n">' + n + '/' + tot + '</span>'
-         +  (stamped ? '<span class="cell-stamp" aria-label="已盖章">' + stampSvg() + '</span>' : '')
+         +  stamps
          +  '</button>';
   }
   calGrid.innerHTML = html;
@@ -1682,15 +1725,19 @@ function renderPanel(){
     {type:'custom',  title:'自定义条目', cls:''}
   ];
 
-  var stamped = hasStamp(day.key);
   var canStamp = isDayComplete(day.key);
-  var stampHint = stamped ? '家长已为这一天盖章' : (canStamp ? '全部完成，可以盖一枚章' : '当天任务全部完成后可盖章');
-  var html = '<div class="stamp-row">'
-           + stampMini()
-           + '<div class="stamp-txt"><b>家长盖章</b><span>' + stampHint + '</span></div>'
-           + (stamped ? '<span class="stamp-ok">已盖章</span>'
-                      : '<button class="stamp-btn" type="button" data-stamp="1"' + (canStamp ? '' : ' disabled') + '>盖一枚</button>')
-           + '</div>';
+  var html = '<div class="stamp-row">' + STAMP_ROLES.map(function(r){
+    var yes = hasStamp(day.key, r.who);
+    var hint = yes ? r.name + '已为这一天盖章'
+              : (canStamp ? '全部完成，可以盖一枚章' : '当天任务全部完成后可盖章');
+    return '<div class="stamp-line" data-who="' + r.who + '">'
+         + stampMini(r.who)
+         + '<div class="stamp-txt"><b>' + r.name + '的章</b><span>' + hint + '</span></div>'
+         + (yes ? '<span class="stamp-ok">已盖章</span>'
+                : '<button class="stamp-btn" type="button" data-stamp="' + r.who + '"'
+                    + (canStamp ? '' : ' disabled') + '>盖一枚</button>')
+         + '</div>';
+  }).join('') + '</div>';
   var body = '';
   groups.forEach(function(g){
     var arr = day.tasks.filter(function(t){ return t.type === g.type; });
@@ -1734,11 +1781,17 @@ function saveFxDone(o){
 }
 function closeDoneFx(){
   doneFx.classList.remove('on');
+  doneFx.classList.remove('duo');
   if (doneFxTimer) { clearTimeout(doneFxTimer); doneFxTimer = null; }
 }
-function showDoneFx(){
+function showDoneFx(title, sub, duo){
   var praise = ['满分表现，明天继续加油', '全部搞定，太厉害了', '今日任务清零，超棒', '又一天满勤，真自律'];
-  doneFxS.textContent = praise[Math.floor(Math.random() * praise.length)];
+  /* 不传 title 时保留调用方（maybeCelebrate）已设好的日期标题 */
+  if (title && doneFxT) doneFxT.textContent = title;
+  doneFxS.textContent = sub || praise[Math.floor(Math.random() * praise.length)];
+  doneFx.classList.toggle('duo', !!duo);
+  var box = document.getElementById('doneFxDuo');
+  if (box) box.innerHTML = duo ? (stampMini('d') + stampMini('m')) : '';
   doneFx.classList.add('on');
   if (doneFxTimer) clearTimeout(doneFxTimer);
   doneFxTimer = setTimeout(closeDoneFx, 2800);
@@ -1786,17 +1839,32 @@ function toggleTask(id){
    小生物：状态完全由 streakNow(factsMap()) 派生，不新增存储、不上云。
    盖章：以 dateKey + '|__stamp__' 作为伪 id 存进 done，复用既有 merge_checkin
    原子合并（只增不删），跨设备可见；不新建表、不改服务端函数、不区分身份。 */
-function stampId(key){ return key + STAMP_SUFFIX; }
-function hasStamp(key){ return done.has(stampId(key)); }
-function stampsForMonth(mk){
+function stampId(key, who){ return key + (who === 'm' ? STAMP_SUFFIX_M : STAMP_SUFFIX); }
+function hasStamp(key, who){ return done.has(stampId(key, who)); }
+function stampsForMonth(mk, who){
   var out = [];
   doneForMonth(mk).forEach(function(id){
-    var s = String(id);
-    if (s.slice(-STAMP_SUFFIX.length) === STAMP_SUFFIX) out.push(s.slice(0, 10));
+    var w = stampWho(id);
+    if (w && (!who || who === 'all' || w === who)) out.push(String(id).slice(0, 10));
   });
   return out.sort();
 }
-function stampSvg(){
+function stampSvg(who){
+  if (who === 'm') {
+    /* ② 丝带蝴蝶结章：淡紫花瓣 + 紫色蝴蝶结（妈妈） */
+    return '<svg viewBox="0 0 48 48" aria-hidden="true">'
+      + '<circle cx="24" cy="9" r="5.2" fill="#EEEDFE"/><circle cx="34.6" cy="13.4" r="5.2" fill="#CECBF6"/>'
+      + '<circle cx="39" cy="24" r="5.2" fill="#F4C0D1"/><circle cx="34.6" cy="34.6" r="5.2" fill="#AFA9EC"/>'
+      + '<circle cx="24" cy="39" r="5.2" fill="#ED93B1"/><circle cx="13.4" cy="34.6" r="5.2" fill="#CECBF6"/>'
+      + '<circle cx="9" cy="24" r="5.2" fill="#F4C0D1"/><circle cx="13.4" cy="13.4" r="5.2" fill="#AFA9EC"/>'
+      + '<circle cx="24" cy="24" r="10" fill="#FFFFFF" stroke="#CECBF6" stroke-width="0.8"/>'
+      + '<path d="M24 24C20 18 14 17 14 23C14 29 20 29 24 24Z" fill="#7F77DD"/>'
+      + '<path d="M24 24C28 18 34 17 34 23C34 29 28 29 24 24Z" fill="#7F77DD"/>'
+      + '<circle cx="24" cy="24" r="2.8" fill="#534AB7"/>'
+      + '<path d="M22.5 26L19 31M25.5 26L29 31" fill="none" stroke="#7F77DD" stroke-width="1.8" stroke-linecap="round"/>'
+      + '</svg>';
+  }
+  /* 花瓣章（爸爸，原样保留） */
   return '<svg viewBox="0 0 48 48" aria-hidden="true">'
     + '<circle cx="24" cy="9" r="5.2" fill="#F4C0D1"/><circle cx="34.6" cy="13.4" r="5.2" fill="#FAC775"/>'
     + '<circle cx="39" cy="24" r="5.2" fill="#9FE1CB"/><circle cx="34.6" cy="34.6" r="5.2" fill="#B5D4F4"/>'
@@ -1806,14 +1874,23 @@ function stampSvg(){
     + '<path d="M19.5 24l3.3 3.3 6.2-6.8" fill="none" stroke="#1D9E75" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
     + '</svg>';
 }
-function stampMini(){ return '<span class="stamp-mini" aria-hidden="true">' + stampSvg() + '</span>'; }
-function doStamp(key){
-  if (!key || hasStamp(key)) return;
-  var sid = stampId(key);
+function stampMini(who){ return '<span class="stamp-mini" aria-hidden="true">' + stampSvg(who) + '</span>'; }
+function doStamp(key, who){
+  if (!key || hasStamp(key, who) || !isDayComplete(key)) return;
+  var sid = stampId(key, who);
   done.add(sid);
   save();
   if (cloudCode && cloud) { pendingAdd.push(sid); schedulePush(); }
   refreshAll();
+  /* 盖章落下回弹：refreshAll 会重建面板，故在重绘后挂动画类 */
+  requestAnimationFrame(function(){
+    var el = document.querySelector('.stamp-line[data-who="' + who + '"] .stamp-mini');
+    if (el) { el.classList.remove('drop'); void el.offsetWidth; el.classList.add('drop'); }
+  });
+  /* 爸爸妈妈都盖齐：双章庆祝（只在这一刻触发） */
+  if (hasStamp(key, 'd') && hasStamp(key, 'm')) {
+    showDoneFx('爸爸妈妈都盖章啦！', '双章齐全，这一天圆满收官', true);
+  }
 }
 function petStage(n){
   if (n >= 14) return {cls:'crown', text:'戴上小皇冠'};
@@ -1852,7 +1929,7 @@ document.addEventListener('click', function(e){
 panelBody.addEventListener('click', function(e){
   var b = e.target.closest('.stamp-btn');
   if (!b || b.disabled) return;
-  doStamp(selected);
+  doStamp(selected, b.getAttribute('data-stamp') || 'd');
 });
 
 function refreshAll(){
@@ -2221,19 +2298,26 @@ function renderReport(){
   });
   document.getElementById('rpWeeks').innerHTML = wh;
 
-  // 家长盖章（本学期 / 当月）
-  var sm = [];
-  if (cur) sm = stampsForMonth(rpScope);
-  else MONTHS.forEach(function(m){ sm = sm.concat(stampsForMonth(m.key)); });
-  sm.sort();
+  // 家长盖章（本学期 / 当月）：爸爸 / 妈妈分开统计，双章齐全单列
+  var sd = [], smm = [];
+  (cur ? [rpScope] : MONTHS.map(function(m){ return m.key; })).forEach(function(mk){
+    sd = sd.concat(stampsForMonth(mk, 'd'));
+    smm = smm.concat(stampsForMonth(mk, 'm'));
+  });
+  sd.sort(); smm.sort();
+  var both = sd.filter(function(k){ return smm.indexOf(k) >= 0; });
+  var all = Array.from(new Set(sd.concat(smm))).sort();
   document.getElementById('rpStampTitle').textContent =
-    (cur ? cur.label : '本学期') + ' · 家长盖章（' + sm.length + ' 枚）';
-  document.getElementById('rpStamps').innerHTML = sm.length
-    ? sm.map(function(k){
+    (cur ? cur.label : '本学期') + ' · 家长盖章（爸爸 ' + sd.length + ' 枚 · 妈妈 ' + smm.length + ' 枚）';
+  document.getElementById('rpStamps').innerHTML = all.length
+    ? all.map(function(k){
         var p = k.split('-');
-        return '<div class="rp-stamp">' + stampMini() + parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日</div>';
+        var icons = (sd.indexOf(k) >= 0 ? stampMini('d') : '')
+                  + (smm.indexOf(k) >= 0 ? stampMini('m') : '');
+        var tag = both.indexOf(k) >= 0 ? '<span class="rp-both">双章齐全</span>' : '';
+        return '<div class="rp-stamp">' + icons + parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日' + tag + '</div>';
       }).join('')
-    : '<span class="rp-empty">还没有盖章。当天任务全部完成后，可在日期面板里盖一枚。</span>';
+    : '<span class="rp-empty">还没有盖章。当天任务全部完成后，爸爸和妈妈可各盖一枚。</span>';
 }
 function rpCard(label, val, unit){
   return '<div class="rp-k"><div class="kl">' + label + '</div>'
@@ -2526,7 +2610,7 @@ function applyServer(serverDone){
   // v3.2.0：家长的章是 done 里的伪 id（只增不删），只收当前月的
   next.forEach(function(id){
     var s = String(id);
-    if (s.slice(-STAMP_SUFFIX.length) !== STAMP_SUFFIX) return;
+    if (!stampSuffix(s)) return;
     if (s.slice(0, 7) !== curM.key) return;
     if (!done.has(s)) { done.add(s); changed = true; }
   });
@@ -2833,7 +2917,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '3.2.3';
+var VERSION = '3.3.0';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
