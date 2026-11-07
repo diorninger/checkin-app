@@ -567,6 +567,69 @@ html.theme-auto .cell.active{box-shadow:0 0 0 2px var(--ink),0 12px 28px -12px r
 .rp-actions .bind-skip{flex:1 1 0;min-width:0;margin:0}
 @media (max-width:420px){ .rp-hero{grid-template-columns:repeat(2,1fr)} }
 
+/* ===== 专注计时 / 统计（v3.4.0） ===== */
+.focus-entry{border-color:var(--accent);color:var(--accent);font-weight:600}
+.focus-entry.running{background:var(--accent);color:#fff}
+.focus-bar{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));transform:translateX(-50%);
+  z-index:70;display:none;align-items:center;gap:10px;padding:9px 10px 9px 15px;max-width:calc(100vw - 28px);
+  border-radius:999px;background:var(--surface);border:1px solid var(--line-soft);box-shadow:var(--shadow-lg)}
+.focus-bar.on{display:flex}
+.fb-dot{width:9px;height:9px;border-radius:50%;background:var(--done);flex:none}
+.focus-bar.paused .fb-dot{background:var(--class)}
+.fb-meta{display:flex;flex-direction:column;gap:1px;min-width:0}
+.fb-sub{font-size:11px;color:var(--ink-3);white-space:nowrap}
+.fb-time{font-size:18px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.focus-bar button{flex:none;padding:7px 11px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface-2);color:var(--ink-2);font-size:12.5px;white-space:nowrap}
+.focus-bar .fb-stop{background:var(--accent);border-color:var(--accent);color:#fff}
+.focus-bar .fb-drop{background:transparent;border-color:transparent;color:var(--ink-3);padding:7px 4px}
+.fc-sec{margin-bottom:22px}
+.fc-sec h3{font-size:13.5px;color:var(--ink-2);font-weight:600;margin-bottom:10px}
+.fc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.fc-day{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.fc-day b{font-size:13.5px;color:var(--ink)}
+.fc-day button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink-2);font-size:16px;line-height:1}
+.fc-hero{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.fc-chips{display:flex;gap:8px;flex-wrap:wrap}
+.fc-chip{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink-2);font-size:13px}
+.fc-chip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.fc-range{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.fc-range input{flex:1;min-width:118px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;
+  background:var(--surface);color:var(--ink);font-size:13px;font-family:inherit}
+.fc-pie-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:16px}
+.fc-pie{flex:none;width:180px;height:180px}
+.fc-legend{flex:1;min-width:190px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.fc-lg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+.fc-lg i{width:9px;height:9px;border-radius:50%;flex:none}
+.fc-lg b{color:var(--ink);font-size:13px}
+.fc-lg em{font-style:normal;color:var(--ink-3);font-size:11px;width:100%;padding-left:16px}
+.fc-total{text-align:center;font-size:13px;color:var(--ink-2);margin:12px 0}
+.fc-total b{color:var(--ink);font-size:16px}
+.fc-empty{padding:22px;text-align:center;color:var(--ink-3);font-size:13px;
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:14px}
+.fc-more{display:block;width:100%;margin:12px auto 0;padding:10px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font-size:13px}
+.fc-rec{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:11px;
+  background:var(--surface);border:1px solid var(--line-soft);margin-bottom:8px;font-size:13px}
+.fc-rec .rr{flex:1;min-width:0;color:var(--ink-2)}
+.fc-rec .rr b{color:var(--ink)}
+.fc-rec .rv{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.fc-rec button{flex:none;border:none;background:transparent;color:var(--ink-3);font-size:16px;padding:2px 6px}
+.fc-start .fc-chips{margin-bottom:14px}
+#focusStartOverlay{z-index:170}
+.fc-running{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:12px;
+  background:var(--accent-soft);margin-bottom:16px;font-size:12.5px;color:var(--ink-2)}
+.fc-running span{flex:1;min-width:140px}
+.fc-label{font-size:11.5px;color:var(--ink-3);margin:0 0 7px}
+@media (max-width:480px){
+  .fc-cards{grid-template-columns:repeat(3,1fr);gap:6px}
+  .fc-legend{grid-template-columns:1fr}
+  .fc-pie{width:150px;height:150px}
+}
+
 @media print{
   body.rp-printing > *:not(#report){display:none !important}
   body.rp-printing #report{position:static;display:block;background:#fff;overflow:visible}
@@ -924,6 +987,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
       <button id="vCal" class="on">日历视图</button>
       <button id="vList">全部清单</button>
     </div>
+    <button class="btn focus-entry" id="btnFocus" type="button">专注</button>
     <div class="spacer"></div>
     <button class="btn tb-toggle" id="tbToggle" type="button" aria-expanded="false" aria-controls="tbMore">
       <span id="tbToggleTxt">更多操作</span><span class="chev">▾</span>
@@ -1005,7 +1069,7 @@ html.theme-auto .cell:active{ background:var(--surface) }
         ⑦ 所有条目均可自定义：点条目右上角 ✎ 可改名、改时间、删除，或添加附件（图片直接内联显示）。自定义与附件仅保存在<b>本机</b>，打卡码云同步仍只同步勾选状态。
       </div>
     </details>
-    <div class="ver-line">版本 <b id="verBadge">v3.3.0</b> · 自定义 · 附件 · 提醒已云端同步（v3.3.0）</div>
+    <div class="ver-line">版本 <b id="verBadge">v3.4.0</b> · 自定义 · 附件 · 提醒已云端同步（v3.4.0）</div>
   </div>
 </div>
 
@@ -1166,10 +1230,36 @@ html.theme-auto .cell:active{ background:var(--surface) }
     <section class="rp-sec"><h3>任务类型分布</h3><div class="rp-marks" id="rpMarks"></div></section>
     <section class="rp-sec"><h3>最近 8 周趋势</h3><div class="rp-bars rp-bars-sm" id="rpWeeks"></div></section>
     <section class="rp-sec"><h3 id="rpStampTitle">家长盖章</h3><div class="rp-stamps" id="rpStamps"></div></section>
+    <section class="rp-sec"><h3>专注时长</h3><div id="rpFocus"></div></section>
     <div class="rp-actions">
       <button class="bind-main" id="rpCsv" type="button">导出 CSV 明细</button>
       <button class="bind-skip" id="rpPrint" type="button">打印 / 存为 PDF</button>
       <button class="bind-skip" id="rpClose2" type="button">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="focus-bar" id="focusBar">
+  <span class="fb-dot"></span>
+  <div class="fb-meta"><span class="fb-sub" id="fbSub">专注中</span><span class="fb-time" id="fbTime">00:00</span></div>
+  <button type="button" data-fc="pause" id="fbPause">暂停</button>
+  <button type="button" data-fc="stop" class="fb-stop">结束</button>
+  <button type="button" data-fc="abort" class="fb-drop" title="放弃本次" aria-label="放弃本次">×</button>
+</div>
+
+<div class="overlay" id="focusStartOverlay" style="display:none" role="dialog" aria-modal="true">
+  <div class="bind fc-start">
+    <div class="bind-eyebrow">专注计时</div>
+    <h2 class="bind-title">开始一次专注</h2>
+    <p class="fc-label">选择科目</p>
+    <div class="fc-chips" id="fcSubjChips"></div>
+    <p class="fc-label">时长</p>
+    <div class="fc-chips" id="fcLenChips"></div>
+    <p class="bind-lead" style="margin:4px 0 14px">预设时长到点自动结束并记入统计；自由计时可随时手动结束。不满 1 分钟按 1 分钟计。</p>
+    <button class="fc-more" type="button" data-fc="open" style="margin:0 0 12px">在报告页查看统计 ›</button>
+    <div class="bind-row">
+      <button class="bind-main" type="button" data-fc="go" style="flex:1">开始</button>
+      <button class="btn" type="button" data-fc="cancel" style="flex:0 0 84px">取消</button>
     </div>
   </div>
 </div>
@@ -1231,6 +1321,59 @@ function stampSuffix(s){
 function stampWho(s){
   var x = stampSuffix(s);
   return x === STAMP_SUFFIX_M ? 'm' : (x === STAMP_SUFFIX ? 'd' : null);
+}
+
+/* ---------- v3.4.0 专注计时：记录编码 ----------
+   一条记录 = done 里的伪 id：date|__focus__|startTs|minutes|subject
+   复用 merge_checkin（任意文本 key），零表改动、跨设备可见；applyServer 只取
+   Object.keys(res.data)，所以数值必须全部编进 id 字符串本身。 */
+var FOCUS_TAG = '|__focus__|';
+var FOCUS_SUBJECTS = ['语文','数学','英语','物理','化学','其他'];
+var FOCUS_COLORS = { '语文':'#ff9500', '数学':'#007aff', '英语':'#34c759',
+                     '物理':'#af52de', '化学':'#ff3b30', '其他':'#8e8e93' };
+var FOCUS_RUN_KEY = 'checkin.focus.run.v1';
+var FOCUS_SUBJ_KEY = 'checkin.focus.subj.v1';
+function isFocusId(s){ return String(s).indexOf(FOCUS_TAG) === 10; }
+function focusId(date, start, mins, subj){
+  return date + FOCUS_TAG + start + '|' + mins + '|' + String(subj).replace(/\|/g, '');
+}
+function parseFocus(id){
+  var p = String(id).split('|');
+  if (p.length !== 5 || p[1] !== '__focus__') return null;
+  var mins = parseInt(p[3], 10), start = parseInt(p[2], 10);
+  if (!isFinite(mins) || mins < 0 || !isFinite(start)) return null;
+  return { id:String(id), date:p[0], start:start, mins:mins, subj:p[4] || '其他' };
+}
+function focusRecords(){
+  var seen = {}, out = [];
+  MONTHS.forEach(function(m){
+    var arr = [];
+    try { arr = JSON.parse(localStorage.getItem('checkin:' + m.key + ':done:v1') || '[]'); } catch(e){}
+    (Array.isArray(arr) ? arr : []).forEach(function(id){
+      if (seen[id]) return;
+      var r = parseFocus(id);
+      if (!r) return;
+      seen[id] = 1; out.push(r);
+    });
+  });
+  return out.sort(function(a, b){ return a.start - b.start; });
+}
+function focusAdd(rec){
+  var id = focusId(rec.date, rec.start, rec.mins, rec.subj);
+  done.add(id); save();
+  if (cloudCode && cloud) { pendingAdd.push(id); schedulePush(); }
+  return id;
+}
+function focusDelete(id){
+  MONTHS.forEach(function(m){
+    var key = 'checkin:' + m.key + ':done:v1';
+    try {
+      var arr = JSON.parse(localStorage.getItem(key) || '[]');
+      if (Array.isArray(arr)) localStorage.setItem(key, JSON.stringify(arr.filter(function(x){ return x !== id; })));
+    } catch(e){}
+  });
+  done.delete(id); save();
+  if (cloudCode && cloud) { pendingDel.push(id); schedulePush(); }
 }
 var curM = MONTHS[0];
 var Y = curM.y, MO = curM.m, DAYS_IN = new Date(curM.y, curM.m + 1, 0).getDate();
@@ -1445,6 +1588,8 @@ function loadDone(){
       // 家长的章是 dateKey + STAMP_SUFFIX 伪 id，不在任务 id 集合里；
       // 只放行当前月的章，否则刷新 / 切月后章会从界面上消失、还能重复盖。
       if (stampSuffix(t) && t.slice(0, 7) === mk) s.add(t);
+      // 专注记录不按月份过滤：跨月记录也留在 done，统计读各月键按 id 去重
+      if (isFocusId(t)) s.add(t);
     }); }
   } catch(e){}
   return s;
@@ -2214,6 +2359,7 @@ var report = document.getElementById('report');
 function openReport(){
   rpScope = 'term';
   renderReport();
+  renderFocus();          // v3.4.0 报告页内嵌的专注时长统计
   report.classList.add('on');
 }
 function closeReport(){ report.classList.remove('on'); }
@@ -2324,6 +2470,277 @@ function rpCard(label, val, unit){
        + '<div class="kv">' + val + '<small>' + unit + '</small></div></div>';
 }
 
+/* ================== v3.4.0 专注计时 / 统计 ================== */
+var focusBar = document.getElementById('focusBar');
+var focusStartOverlay = document.getElementById('focusStartOverlay');
+var rpFocus = document.getElementById('rpFocus');
+var focusRun = null;      // {subj, start, accum, len, paused}
+var focusTick = null;
+var fcScope = 'term', fcDay = TODAY, fcFrom = '', fcTo = '', fcShowRec = false;
+var fcPickSubj = '数学', fcPickLen = 0;
+
+function fcEsc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fcDate(ts){
+  var d = new Date(ts);
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+}
+function fcShiftDay(ds, n){
+  var p = String(ds).split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+  d.setDate(d.getDate() + n);
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+}
+function fcDur(mins){
+  var h = Math.floor(mins / 60), m = mins % 60;
+  return h ? h + '小时' + (m ? m + '分' : '') : m + '分钟';
+}
+function fcClock(sec){
+  var h = Math.floor(sec / 3600), m = Math.floor(sec / 60) % 60, s = sec % 60;
+  return (h ? pad(h) + ':' : '') + pad(m) + ':' + pad(s);
+}
+function fcRangeOf(scope, day){
+  if (scope === 'day') return { from:day, to:day };
+  if (scope === 'week') {
+    var p = String(day).split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    var from = fcShiftDay(day, -((d.getDay() + 6) % 7));
+    return { from:from, to:fcShiftDay(from, 6) };
+  }
+  if (scope === 'month') return { from:String(day).slice(0,7) + '-01', to:String(day).slice(0,7) + '-31' };
+  if (scope === 'term') return { from:'0000-01-01', to:'9999-12-31' };
+  return { from:fcFrom || day, to:fcTo || day };
+}
+function fcInRange(recs, scope, day){
+  var r = fcRangeOf(scope, day);
+  return recs.filter(function(x){ return x.date >= r.from && x.date <= r.to; });
+}
+function fcStats(recs){
+  var bySubj = {}, days = {}, total = 0;
+  recs.forEach(function(r){
+    bySubj[r.subj] = (bySubj[r.subj] || 0) + r.mins;
+    days[r.date] = 1; total += r.mins;
+  });
+  var rows = Object.keys(bySubj).map(function(k){
+    return { subj:k, mins:bySubj[k], color:FOCUS_COLORS[k] || '#8e8e93' };
+  }).sort(function(a, b){ return b.mins - a.mins; });
+  return { rows:rows, total:total, count:recs.length, days:Object.keys(days).length };
+}
+function fcPie(st){
+  if (!st.total) return '<div class="fc-empty">这个时间段还没有专注记录。点「开始一次专注」记一笔。</div>';
+  var cx = 90, cy = 90, r = 84, a = -Math.PI / 2;
+  var svg = '<svg class="fc-pie" viewBox="0 0 180 180" role="img" aria-label="专注时长分布">';
+  if (st.rows.length === 1) {
+    svg += '<circle cx="90" cy="90" r="84" fill="' + st.rows[0].color + '"/>';
+  } else {
+    st.rows.forEach(function(row){
+      var sweep = row.mins / st.total * Math.PI * 2;
+      var x1 = cx + r * Math.cos(a), y1 = cy + r * Math.sin(a);
+      a += sweep;
+      var x2 = cx + r * Math.cos(a), y2 = cy + r * Math.sin(a);
+      svg += '<path d="M ' + cx + ' ' + cy + ' L ' + x1.toFixed(2) + ' ' + y1.toFixed(2)
+           + ' A ' + r + ' ' + r + ' 0 ' + (sweep > Math.PI ? 1 : 0) + ' 1 '
+           + x2.toFixed(2) + ' ' + y2.toFixed(2) + ' Z" fill="' + row.color + '"/>';
+    });
+  }
+  svg += '</svg>';
+  var lg = '<div class="fc-legend">' + st.rows.map(function(row){
+    return '<div class="fc-lg"><i style="background:' + row.color + '"></i>'
+         + '<b>' + fcEsc(row.subj) + '</b><span>' + fcDur(row.mins) + '</span>'
+         + '<em>' + (row.mins / st.total * 100).toFixed(1) + '%</em></div>';
+  }).join('') + '</div>';
+  return '<div class="fc-pie-row">' + svg + lg + '</div>'
+       + '<div class="fc-total">总计 <b>' + fcDur(st.total) + '</b> · ' + st.count + ' 次</div>';
+}
+function fcCards(all){
+  return '<div class="fc-cards">'
+    + '<div class="rp-k"><div class="kl">累计次数</div><div class="kv">' + all.count + '<small>次</small></div></div>'
+    + '<div class="rp-k"><div class="kl">累计时长</div><div class="kv">' + Math.floor(all.total / 60)
+      + '<small>小时 ' + (all.total % 60) + '分</small></div></div>'
+    + '<div class="rp-k"><div class="kl">日均时长</div><div class="kv">'
+      + (all.days ? Math.round(all.total / all.days) : 0) + '<small>分钟</small></div></div>'
+    + '</div><p class="fc-label" style="margin-top:-8px">日均按有记录的天数计算 · 共 ' + all.days + ' 天</p>';
+}
+function fcScopeChips(){
+  var names = { day:'日', week:'周', month:'月', term:'本学期', custom:'自定义' };
+  return '<div class="fc-chips" style="margin-bottom:10px">' + ['day','week','month','term','custom'].map(function(k){
+    return '<button type="button" class="fc-chip' + (fcScope === k ? ' on' : '')
+         + '" data-fc="scope" data-v="' + k + '">' + names[k] + '</button>';
+  }).join('') + '</div>';
+}
+function fcRangeInputs(){
+  if (fcScope !== 'custom') return '';
+  return '<div class="fc-range"><input type="date" id="fcFrom" value="' + (fcFrom || fcShiftDay(TODAY, -6)) + '">'
+       + '<span>至</span><input type="date" id="fcTo" value="' + (fcTo || TODAY) + '">'
+       + '<button class="btn" type="button" data-fc="range">应用</button></div>';
+}
+function fcRangeLabel(){
+  var r = fcRangeOf(fcScope, fcDay);
+  if (fcScope === 'term') return '本学期';
+  return r.from === r.to ? r.from : r.from + ' ~ ' + r.to;
+}
+function fcRecordList(recs){
+  return recs.slice().reverse().map(function(r){
+    var d = new Date(r.start);
+    return '<div class="fc-rec"><div class="rr"><b>' + fcEsc(r.subj) + '</b> · ' + r.date + ' '
+         + pad(d.getHours()) + ':' + pad(d.getMinutes()) + '</div>'
+         + '<span class="rv">' + fcDur(r.mins) + '</span>'
+         + '<button type="button" data-fc="del" data-v="' + fcEsc(r.id) + '" aria-label="删除这条记录">×</button></div>';
+  }).join('');
+}
+/* 唯一形态：报告页内的专注时长统计（累计 / 当日 / 分布 / 记录） */
+function focusHTML(){
+  var recs = focusRecords(), all = fcStats(recs);
+  var scopeRecs = fcInRange(recs, fcScope, fcDay);
+  var st = fcStats(scopeRecs), daySt = fcStats(recs.filter(function(r){ return r.date === fcDay; }));
+  var h = '';
+  if (focusRun) {
+    h += '<div class="fc-running"><span>专注进行中 · ' + fcEsc(focusRun.subj)
+       + (focusRun.paused ? ' · 已暂停' : '') + '</span>'
+       + '<button class="btn" type="button" data-fc="pause">' + (focusRun.paused ? '继续' : '暂停') + '</button>'
+       + '<button class="btn" type="button" data-fc="stop">结束并记录</button></div>';
+  }
+  h += '<div class="fc-sec"><h3>累计专注</h3>' + fcCards(all) + '</div>';
+  h += '<div class="fc-sec"><h3>当日专注</h3>'
+     + '<div class="fc-day"><button type="button" data-fc="day" data-v="-1" aria-label="前一天">‹</button>'
+     + '<b>' + fcDay + '</b><button type="button" data-fc="day" data-v="1" aria-label="后一天">›</button></div>'
+     + '<div class="fc-hero">'
+     + '<div class="rp-k"><div class="kl">次数</div><div class="kv">' + daySt.count + '<small>次</small></div></div>'
+     + '<div class="rp-k"><div class="kl">时长</div><div class="kv">' + Math.floor(daySt.total / 60)
+     + '<small>小时 ' + (daySt.total % 60) + '分</small></div></div></div></div>';
+  h += '<div class="fc-sec"><h3>专注时长分布 · ' + fcEsc(fcRangeLabel()) + '</h3>'
+     + fcScopeChips() + fcRangeInputs() + fcPie(st) + '</div>';
+  h += '<div class="fc-sec"><h3>专注记录</h3>'
+     + '<button class="fc-more" type="button" data-fc="rec">' + (fcShowRec ? '收起记录' : '查看专注记录')
+     + '（' + scopeRecs.length + ' 条）</button>'
+     + (fcShowRec ? '<div style="margin-top:12px">' + (fcRecordList(scopeRecs) || '<div class="fc-empty">暂无记录</div>') + '</div>' : '')
+     + '</div>';
+  if (!focusRun) h += '<button class="fc-more" type="button" data-fc="start">开始一次专注</button>';
+  return h;
+}
+
+/* ---------- 计时器 ---------- */
+function fcElapsed(){
+  if (!focusRun) return 0;
+  return focusRun.accum + (focusRun.paused ? 0 : Date.now() - focusRun.start);
+}
+function fcSaveRun(){
+  try { localStorage.setItem(FOCUS_RUN_KEY, focusRun ? JSON.stringify(focusRun) : ''); } catch(e){}
+}
+function fcRestoreRun(){
+  try {
+    var r = JSON.parse(localStorage.getItem(FOCUS_RUN_KEY) || 'null');
+    if (!r || !r.subj || !r.start) return;
+    if (!r.paused && Date.now() - Number(r.start) > 4 * 3600 * 1000) { fcSaveRun(); return; }
+    focusRun = r;
+  } catch(e){ return; }
+  fcStartTick();
+}
+function fcStartTick(){
+  if (focusTick) clearInterval(focusTick);
+  focusTick = setInterval(function(){
+    if (!focusRun) { clearInterval(focusTick); focusTick = null; return; }
+    var sec = Math.floor(fcElapsed() / 1000);
+    if (focusRun.len && sec >= focusRun.len * 60) { fcStop(true); return; }
+    renderFocusBar();
+  }, 1000);
+}
+function fcBegin(){
+  focusRun = { subj:fcPickSubj, start:Date.now(), accum:0, len:fcPickLen, paused:false };
+  try { localStorage.setItem(FOCUS_SUBJ_KEY, fcPickSubj); } catch(e){}
+  fcSaveRun();
+  focusStartOverlay.style.display = 'none';
+  fcStartTick(); renderFocusBar(); renderFocus();
+  showToast('开始专注 · ' + fcPickSubj);
+}
+function fcPause(){
+  if (!focusRun) return;
+  if (focusRun.paused) { focusRun.start = Date.now(); focusRun.paused = false; }
+  else { focusRun.accum = fcElapsed(); focusRun.paused = true; }
+  fcSaveRun(); renderFocusBar(); renderFocus();
+}
+function fcStop(auto){
+  if (!focusRun) return;
+  var mins = Math.max(1, Math.round(fcElapsed() / 60000));
+  var rec = { date:fcDate(focusRun.start), start:focusRun.start, mins:mins, subj:focusRun.subj };
+  focusAdd(rec);
+  focusRun = null; fcSaveRun();
+  if (focusTick) { clearInterval(focusTick); focusTick = null; }
+  renderFocusBar(); renderFocus();
+  showToast((auto ? '专注到点 · ' : '已记录 · ') + rec.subj + ' ' + fcDur(mins));
+}
+function fcAbort(){
+  focusRun = null; fcSaveRun();
+  if (focusTick) { clearInterval(focusTick); focusTick = null; }
+  renderFocusBar(); renderFocus(); showToast('已放弃本次专注');
+}
+function renderFocusBar(){
+  if (!focusBar) return;
+  var on = !!focusRun;
+  focusBar.classList.toggle('on', on);
+  focusBar.classList.toggle('paused', on && focusRun.paused);
+  var btn = document.getElementById('btnFocus');
+  if (btn) btn.classList.toggle('running', on);
+  if (!on) return;
+  document.getElementById('fbSub').textContent = focusRun.subj
+    + (focusRun.paused ? ' · 已暂停' : focusRun.len ? ' · ' + focusRun.len + '分钟倒计时' : ' · 自由计时');
+  var sec = Math.floor(fcElapsed() / 1000);
+  document.getElementById('fbTime').textContent = fcClock(focusRun.len ? Math.max(0, focusRun.len * 60 - sec) : sec);
+  document.getElementById('fbPause').textContent = focusRun.paused ? '继续' : '暂停';
+}
+function renderFocus(){
+  if (rpFocus) rpFocus.innerHTML = focusHTML();
+}
+function openFocusStart(){
+  try { fcPickSubj = localStorage.getItem(FOCUS_SUBJ_KEY) || fcPickSubj; } catch(e){}
+  document.getElementById('fcSubjChips').innerHTML = FOCUS_SUBJECTS.map(function(s){
+    return '<button type="button" class="fc-chip' + (s === fcPickSubj ? ' on' : '')
+         + '" data-fc="subj" data-v="' + s + '">' + s + '</button>';
+  }).join('');
+  document.getElementById('fcLenChips').innerHTML = [[0,'自由'],[25,'25 分钟'],[45,'45 分钟'],[60,'60 分钟']].map(function(x){
+    return '<button type="button" class="fc-chip' + (x[0] === fcPickLen ? ' on' : '')
+         + '" data-fc="len" data-v="' + x[0] + '">' + x[1] + '</button>';
+  }).join('');
+  focusStartOverlay.style.display = '';
+}
+function fcSetChip(container, val){
+  Array.prototype.forEach.call(document.querySelectorAll(container + ' .fc-chip'), function(x){
+    x.classList.toggle('on', x.getAttribute('data-v') === String(val));
+  });
+}
+
+document.getElementById('btnFocus').addEventListener('click', function(){
+  if (focusRun) openReport(); else openFocusStart();
+});
+focusStartOverlay.addEventListener('click', function(e){
+  if (e.target === focusStartOverlay) focusStartOverlay.style.display = 'none';
+});
+document.addEventListener('click', function(e){
+  var b = e.target.closest && e.target.closest('[data-fc]');
+  if (!b) return;
+  var act = b.getAttribute('data-fc'), v = b.getAttribute('data-v');
+  if (act === 'subj') { fcPickSubj = v; fcSetChip('#fcSubjChips', v); }
+  else if (act === 'len') { fcPickLen = parseInt(v, 10) || 0; fcSetChip('#fcLenChips', v); }
+  else if (act === 'go') fcBegin();
+  else if (act === 'cancel') focusStartOverlay.style.display = 'none';
+  else if (act === 'pause') fcPause();
+  else if (act === 'stop') fcStop(false);
+  else if (act === 'abort') fcAbort();
+  else if (act === 'scope') {
+    fcScope = v;
+    if (v === 'custom' && !fcFrom) { fcFrom = fcShiftDay(TODAY, -6); fcTo = TODAY; }
+    renderFocus();
+  }
+  else if (act === 'range') {
+    var fi = document.getElementById('fcFrom'), ti = document.getElementById('fcTo');
+    if (fi && ti && fi.value && ti.value) { fcFrom = fi.value; fcTo = ti.value; renderFocus(); }
+  }
+  else if (act === 'day') { fcDay = fcShiftDay(fcDay, parseInt(v, 10)); renderFocus(); }
+  else if (act === 'rec') { fcShowRec = !fcShowRec; renderFocus(); }
+  else if (act === 'del') { focusDelete(v); renderFocus(); showToast('已删除该条记录'); }
+  else if (act === 'open') { focusStartOverlay.style.display = 'none'; openReport(); }
+  else if (act === 'start') openFocusStart();
+});
+
 /* CSV 明细导出（UTF-8 BOM，Excel 直接打开不乱码） */
 function exportCsv(){
   var rows = [['日期','任务','角标','是否完成','当日完成率']];
@@ -2420,6 +2837,7 @@ if (_phClose) _phClose.addEventListener('click', closePanel);
 document.addEventListener('keydown', function(e){
   if (e.key !== 'Escape') return;
   if (imgView.classList.contains('on')) return;                 // 图片预览由自己的监听处理
+  if (focusStartOverlay.style.display !== 'none') { focusStartOverlay.style.display = 'none'; return; }
   if (report.classList.contains('on')) { closeReport(); return; }
   if (editOverlay.style.display !== 'none') { closeEdit(); return; }
   if (remindOverlay.style.display !== 'none') { closeRemind(); return; }
@@ -2608,8 +3026,13 @@ function applyServer(serverDone){
     if (want !== has) { if (want) done.add(id); else done.delete(id); changed = true; }
   });
   // v3.2.0：家长的章是 done 里的伪 id（只增不删），只收当前月的
+  // v3.4.0：专注记录同类伪 id，但不按月份过滤（记录可能跨月写入当前月键）
   next.forEach(function(id){
     var s = String(id);
+    if (isFocusId(s)) {
+      if (!done.has(s)) { done.add(s); changed = true; }
+      return;
+    }
     if (!stampSuffix(s)) return;
     if (s.slice(0, 7) !== curM.key) return;
     if (!done.has(s)) { done.add(s); changed = true; }
@@ -2917,7 +3340,7 @@ function showOverlay(){
 function hideOverlay(){ overlay.style.display = 'none'; }
 
 /* ---------- 提醒设置（用户自行调节） ---------- */
-var VERSION = '3.3.0';
+var VERSION = '3.4.0';
 var RM_KEY = 'checkin.reminder.v1';
 var remindOverlay = document.getElementById('remindOverlay');
 var rmOn = document.getElementById('rmOn');
@@ -3545,6 +3968,9 @@ renderCal();
 renderPanel();
 syncStats();
 renderPet();
+renderFocus();       // v3.4.0 两种统计形态都先渲染好
+fcRestoreRun();      // 恢复未结束的专注（刷新不丢）
+renderFocusBar();
 pulseGrid();
 
 // 默认进入日历视图（全部清单需手动切换）
